@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FarmerController;
+use App\Http\Controllers\Admin\IndicatorController;
+use App\Http\Controllers\Admin\HistoryController;
+use App\Http\Controllers\Admin\BasicController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,5 +27,20 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
   /** Dashboard */
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+  /** Farmers */
+  Route::get('/farmers', [FarmerController::class, 'index'])->name('farmer.index');
+
+  /** Indicators */
+  Route::get('/indicators', [IndicatorController::class, 'index'])->name('indicator.index');
+
+  /** History of contours */
+  Route::get('/histories', [HistoryController::class, 'index'])->name('history.index');
+
+  /** Basic data */
+  Route::prefix('basic')->name('basic.')->group(function() {
+    Route::get('/regions', [BasicController::class, 'getRegions'])->name('region.index');
+    Route::get('/districts', [BasicController::class, 'getDistricts'])->name('district.index');
+  });
 
 });

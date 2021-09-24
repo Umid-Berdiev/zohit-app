@@ -15,22 +15,30 @@ return [
   'menu' => [[
       'icon' => 'fa fa-th-large',
       'title' => 'Рабочий стол',
-      'url' => 'javascript:;',
+      'url' => '/admin/dashboard',
 		],[
-      'icon' => 'fa fa-th-large',
+      'icon' => 'fa fa-table',
       'title' => 'Фермеры',
-      'url' => 'javascript:;',
+      'url' => '/admin/farmers',
     ],[
-      'icon' => 'fa fa-th-large',
+      'icon' => 'fa fa-chart-line',
       'title' => 'Показатели качества',
-      'url' => 'javascript:;',
+      'url' => '/admin/indicators',
     ],[
-    'icon' => 'fa fa-th-large',
+    'icon' => 'fa fa-history',
     'title' => 'Ежегодная история контуров',
-    'url' => 'javascript:;',
+    'url' => '/admin/histories',
   ],[
     'icon' => 'fa fa-th-large',
     'title' => 'Справочники',
     'url' => 'javascript:;',
+    'caret' => true,
+    'sub_menu' => [[
+      'url' => '/admin/basic/regions',
+      'title' => 'Регионы'
+    ],[
+      'url' => '/admin/basic/districts',
+      'title' => 'Районы'
+    ]]
   ]]
 ];
