@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\District;
+use App\Models\Admin\Region;
 use Illuminate\Http\Request;
 
 class BasicController extends Controller
 {
   public function getRegions()
   {
-    return view('pages/Admin/Basic/Region/index');
+    $response = Region::all();
+    return view('pages/Admin/Basic/Region/index', compact('response'));
   }
 
   public function getDistricts()
   {
-    return view('pages/Admin/Basic/District/index');
+    $response = District::with('region')->get();
+    return view('pages/Admin/Basic/District/index', compact('response'));
   }
 }

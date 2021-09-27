@@ -40,12 +40,35 @@
 						<thead>
 							<tr>
 								<th>ID</th>
-								<th>First name</th>
-								<th>Last name</th>
-								<th>ZIP / Post code</th>
-								<th>Country</th>
+								<th>Название</th>
+                <th>Площадь посева</th>
+                <th>Область</th>
+								<th>Район</th>
+                <th>Действия</th>
 							</tr>
 						</thead>
+            <tbody>
+              @foreach($response as $item)
+                <tr>
+                  <td>{{ $item->id }}</td>
+                  <td>{{ $item->name }}</td>
+                  <td>{{ $item->crop_area }}</td>
+                  <td>{{ $item->region->name }}</td>
+                  <td>{{ $item->district->name }}</td>
+                  <td class="text-center">
+                    <a href="#" class="btn  btn-icon btn-success mr-1"><span class="fas fa-eye "></span></a>
+                    <a href="#" class="btn btn-icon btn-primary mr-1"><i class="fas fa-edit "></i></a>
+                    <a
+                      class="btn btn-icon btn-danger delete_button"
+                      data-toggle="modal"
+                      data-target="#deleteModal"
+                    >
+                      <i class="fas fa-trash  text-white"></i>
+                    </a>
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
 					</table>
 				</div>
 				<!-- end panel-body -->
@@ -67,7 +90,7 @@
 	<script>
 		if ($('#data-table-scroller').length !== 0) {
 			$('#data-table-scroller').DataTable({
-				ajax:           "/assets/js/demo/json/scroller_demo.json",
+				// ajax:           "/assets/js/demo/json/scroller_demo.json",
 				deferRender:    true,
 				scrollY:        300,
 				scrollCollapse: true,

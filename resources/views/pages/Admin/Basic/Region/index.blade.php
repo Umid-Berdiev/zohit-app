@@ -40,12 +40,17 @@
 						<thead>
 							<tr>
 								<th>ID</th>
-								<th>First name</th>
-								<th>Last name</th>
-								<th>ZIP / Post code</th>
-								<th>Country</th>
+								<th>Название</th>
 							</tr>
 						</thead>
+            <tbody>
+              @foreach($response as $item)
+                <tr>
+                  <td> {{ $item->id }} </td>
+                  <td> {{ $item->name }} </td>
+                </tr>
+              @endforeach
+            </tbody>
 					</table>
 				</div>
 				<!-- end panel-body -->
@@ -67,7 +72,7 @@
 	<script>
 		if ($('#data-table-scroller').length !== 0) {
 			$('#data-table-scroller').DataTable({
-				ajax:           "/assets/js/demo/json/scroller_demo.json",
+				// ajax:           "/assets/js/demo/json/scroller_demo.json",
 				deferRender:    true,
 				scrollY:        300,
 				scrollCollapse: true,

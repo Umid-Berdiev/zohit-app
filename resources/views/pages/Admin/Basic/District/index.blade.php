@@ -37,15 +37,22 @@
 				<!-- begin panel-body -->
 				<div class="panel-body">
 					<table id="data-table-scroller" class="table table-striped table-bordered  table-td-valign-middle" cellspacing="0" width="100%">
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>First name</th>
-								<th>Last name</th>
-								<th>ZIP / Post code</th>
-								<th>Country</th>
-							</tr>
-						</thead>
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Название</th>
+              <th>Область</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($response as $item)
+              <tr>
+                <td> {{ $item->id }} </td>
+                <td> {{ $item->name }} </td>
+                <td> {{ $item->region->name }} </td>
+              </tr>
+            @endforeach
+            </tbody>
 					</table>
 				</div>
 				<!-- end panel-body -->
@@ -67,7 +74,7 @@
 	<script>
 		if ($('#data-table-scroller').length !== 0) {
 			$('#data-table-scroller').DataTable({
-				ajax:           "/assets/js/demo/json/scroller_demo.json",
+				// ajax:           "/assets/js/demo/json/scroller_demo.json",
 				deferRender:    true,
 				scrollY:        300,
 				scrollCollapse: true,
