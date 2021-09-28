@@ -21,7 +21,7 @@ class FarmerController extends Controller
 
   public function show(Farmer $farmer)
   {
-    $response = $farmer->with('region', 'district', 'contours')->first();
+    $response = Farmer::where('id', $farmer->id)->with('region', 'district', 'contours')->first();
     return view('pages/Admin/Farmer/show', compact('response'));
   }
 }
