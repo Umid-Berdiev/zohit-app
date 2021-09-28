@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\District;
+use App\Models\Admin\Matrix;
 use App\Models\Admin\Region;
 use Illuminate\Http\Request;
 
@@ -19,5 +20,11 @@ class BasicController extends Controller
   {
     $response = District::with('region')->get();
     return view('pages/Admin/Basic/District/index', compact('response'));
+  }
+
+  public function getMatrix()
+  {
+    $response = Matrix::all();
+    return view('pages/Admin/Basic/Matrix/index', compact('response'));
   }
 }

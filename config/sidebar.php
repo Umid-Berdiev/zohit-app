@@ -39,6 +39,9 @@ return [
     ],[
       'url' => '/admin/basic/districts',
       'title' => 'Районы'
+    ],[
+      'url' => '/admin/basic/matrix',
+      'title' => 'Массив'
     ]]
   ]]
 ];

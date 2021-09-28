@@ -39,13 +39,15 @@
 					<table id="data-table-scroller" class="table table-striped table-bordered  table-td-valign-middle" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th>ID</th>
-								<th>Название</th>
+								<th>№</th>
+                <th>ID</th>
+                <th>Название</th>
 							</tr>
 						</thead>
             <tbody>
               @foreach($response as $item)
                 <tr>
+                  <td> {{ $loop->index + 1 }} </td>
                   <td> {{ $item->id }} </td>
                   <td> {{ $item->name }} </td>
                 </tr>

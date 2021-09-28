@@ -30,6 +30,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
   /** Farmers */
   Route::get('/farmers', [FarmerController::class, 'index'])->name('farmer.index');
+  Route::get('/farmers/{farmer}', [FarmerController::class, 'show'])->name('farmer.show');
 
   /** Indicators */
   Route::get('/indicators', [IndicatorController::class, 'index'])->name('indicator.index');
@@ -41,6 +42,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
   Route::prefix('basic')->name('basic.')->group(function() {
     Route::get('/regions', [BasicController::class, 'getRegions'])->name('region.index');
     Route::get('/districts', [BasicController::class, 'getDistricts'])->name('district.index');
+    Route::get('/matrix', [BasicController::class, 'getMatrix'])->name('matrix.index');
   });
 
 });

@@ -19,9 +19,9 @@ class FarmerController extends Controller
     return view('pages/Admin/Farmer/index', compact('response'));
   }
 
-  public function show()
+  public function show(Farmer $farmer)
   {
-    $response = Farmer::with('region', 'district', 'contours')->get();
+    $response = $farmer->with('region', 'district', 'contours')->first();
     return view('pages/Admin/Farmer/show', compact('response'));
   }
 }

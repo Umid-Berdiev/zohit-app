@@ -27,6 +27,12 @@
 				<!-- begin panel-heading -->
 				<div class="panel-heading">
 					<h4 class="panel-title">Ежегодная история контуров</h4>
+          <a href="#" class="btn btn-xs btn-primary mr-3">
+            <i class="fa fa-file-import"></i> Import
+          </a>
+          <a href="#" class="btn btn-xs btn-success mr-3">
+            <i class="fa fa-file-export"></i> Export
+          </a>
 					<div class="panel-heading-btn">
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -39,12 +45,31 @@
 					<table id="data-table-scroller" class="table table-striped table-bordered  table-td-valign-middle" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th>ID</th>
-								<th>First name</th>
-								<th>Last name</th>
-								<th>ZIP / Post code</th>
-								<th>Country</th>
+                <th>№</th>
+                <th>Область</th>
+                <th>Район</th>
+                <th>Массив</th>
+                <th>Фермер</th>
+                <th>Номер контура</th>
+                <th>Площадь посева</th>
+                <th>Год</th>
+                <th>Урожай</th>
 							</tr>
+            <tbody>
+            @foreach($response as $item)
+              <tr>
+                <td> {{ $loop->index + 1 }} </td>
+                <td> {{ $item->region->name }} </td>
+                <td> {{ $item->district->name }} </td>
+                <td> {{ $item->matrix->name }} </td>
+                <td> {{ $item->farmer->farmer->name }} </td>
+                <td> {{ $item->farmerContour->contour_number }} </td>
+                <td> {{ $item->farmerContour->crop_area }} </td>
+                <td> {{ $item->year }} </td>
+                <td> {{ $item->crop_name }} </td>
+              </tr>
+            @endforeach
+            </tbody>
 						</thead>
 					</table>
 				</div>
@@ -67,7 +92,7 @@
 	<script>
 		if ($('#data-table-scroller').length !== 0) {
 			$('#data-table-scroller').DataTable({
-				ajax:           "/assets/js/demo/json/scroller_demo.json",
+				// ajax:           "/assets/js/demo/json/scroller_demo.json",
 				deferRender:    true,
 				scrollY:        300,
 				scrollCollapse: true,

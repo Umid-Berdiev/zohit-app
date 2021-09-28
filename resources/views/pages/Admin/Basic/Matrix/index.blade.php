@@ -12,11 +12,11 @@
 	<!-- begin breadcrumb -->
 	<ol class="breadcrumb float-xl-right">
 		<li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Рабочий стол</a></li>
-		<li class="breadcrumb-item active">Районы</li>
+		<li class="breadcrumb-item active">Массив</li>
 	</ol>
 	<!-- end breadcrumb -->
 	<!-- begin page-header -->
-	<h1 class="page-header">Районы</h1>
+	<h1 class="page-header">Массив</h1>
 	<!-- end page-header -->
 	<!-- begin row -->
 	<div class="row">
@@ -26,7 +26,7 @@
 			<div class="panel panel-inverse">
 				<!-- begin panel-heading -->
 				<div class="panel-heading">
-					<h4 class="panel-title">Районы</h4>
+					<h4 class="panel-title">Массив</h4>
 					<div class="panel-heading-btn">
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -42,7 +42,6 @@
               <th>№</th>
               <th>ID</th>
               <th>Название</th>
-              <th>Область</th>
             </tr>
             </thead>
             <tbody>
@@ -51,7 +50,6 @@
                   <td> {{ $loop->index + 1 }} </td>
                   <td> {{ $item->id }} </td>
                   <td> {{ $item->name }} </td>
-                  <td> {{ $item->region->name }} </td>
                 </tr>
               @endforeach
             </tbody>
