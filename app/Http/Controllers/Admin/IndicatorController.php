@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\QualityIndicatorsImport;
 use App\Models\Admin\QualityIndicator;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IndicatorController extends Controller
 {
@@ -21,11 +22,9 @@ class IndicatorController extends Controller
     $request->validate([
       'import_file' => 'required'
     ]);
-    \Excel::import(new QualityIndicatorsImport,$request->import_file);
+    Excel::import(new QualityIndicatorsImport, request()->file('import_file'));
 
-    \Session::put('success', 'Your file is imported successfully in database.');
-
-    return back();
+    return back()->with('success', 'User Imported Successfully.');
   }
 
   public function exportExcel($type)

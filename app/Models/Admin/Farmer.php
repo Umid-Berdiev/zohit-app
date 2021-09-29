@@ -40,7 +40,7 @@ class Farmer extends Model
       }
       else
       {
-        $obj->update(['crop_area' => $obj->crop_area+$crop_area]);
+        $obj->update(['crop_area' => $obj->crop_area+$crop_area, 'name' => $farmer_name]);
       }
       return $obj->id;
     }

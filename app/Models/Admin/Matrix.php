@@ -21,6 +21,10 @@ class Matrix extends Model
         $obj->name = $name;
         $obj->save();
       }
+      else
+      {
+        $obj->update(['name' => $name]);
+      }
       return $obj->id;
     }
 }

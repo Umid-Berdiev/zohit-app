@@ -26,6 +26,10 @@ class District extends Model
         $obj->region_id = $region_id;
         $obj->save();
       }
+      else
+      {
+        $obj->update(['name' => $name]);
+      }
       return $obj->id;
     }
 }
