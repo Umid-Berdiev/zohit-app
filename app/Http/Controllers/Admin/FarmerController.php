@@ -15,13 +15,13 @@ class FarmerController extends Controller
    */
   public function index()
   {
-    $response = Farmer::with('region', 'district')->get();
-    return view('pages/Admin/Farmer/index', compact('response'));
+      $response = Farmer::with('region', 'district')->get();
+      return view('pages/Admin/Farmer/index', compact('response'));
   }
 
   public function show(Farmer $farmer)
   {
-    $response = Farmer::where('id', $farmer->id)->with('region', 'district', 'contours')->first();
-    return view('pages/Admin/Farmer/show', compact('response'));
+      $response = Farmer::where('id', $farmer->id)->with('region', 'district', 'contours')->first();
+      return view('pages/Admin/Farmer/show', compact('response'));
   }
 }

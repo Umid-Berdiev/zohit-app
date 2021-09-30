@@ -34,4 +34,19 @@ class ContourHistory extends Model
     {
       return $this->farmerContour()->with('farmer');
     }
+
+    public static function findOrCreate($region_id, $district_id, $array_id, $farmer_contour_id, $year, $crop_name)
+    {
+        $obj = ContourHistory::where(['region_id' => $region_id, 'district_id' => $district_id, 'array_id' => $array_id, 'farmer_contour_id' => $farmer_contour_id, 'year' => $year])->first();
+        if ($obj == null){
+          $obj = new ContourHistory;
+        }
+        $obj->region_id = $region_id;
+        $obj->district_id = $district_id;
+        $obj->array_id = $array_id;
+        $obj->farmer_contour_id = $farmer_contour_id;
+        $obj->year = $year;
+        $obj->crop_name = $crop_name;
+        $obj->save();
+    }
 }

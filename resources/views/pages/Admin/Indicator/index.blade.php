@@ -45,7 +45,7 @@
 					<h4 class="panel-title">Показатели качества</h4>
 
           <a href="#modal-dialog" class="btn btn-xs btn-primary mr-3" data-toggle="modal" >
-            <i class="fa fa-file-import"></i> Import File </a>
+            <i class="fa fa-file-import"></i> Import </a>
 
 {{--          <a href="{{ route('admin.indicator.export', 'xls') }}"><button class="btn btn-success">Download Excel xls</button></a>--}}
 {{--          <a href=""><button class="btn btn-success">Download Excel xlsx</button></a>--}}

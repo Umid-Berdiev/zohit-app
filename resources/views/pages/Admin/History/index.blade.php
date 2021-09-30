@@ -20,6 +20,13 @@
 	<!-- end page-header -->
 	<!-- begin row -->
 	<div class="row">
+    @if ($errors->any())
+      <ul class="alert alert-danger mr-2">
+        @foreach ($errors->all() as $error)
+          <li >{{ $error }}</li>
+        @endforeach
+      </ul>
+  @endif
 		<!-- begin col-10 -->
 		<div class="col-xl-12">
 			<!-- begin panel -->
@@ -27,10 +34,13 @@
 				<!-- begin panel-heading -->
 				<div class="panel-heading">
 					<h4 class="panel-title">Ежегодная история контуров</h4>
-          <a href="#" class="btn btn-xs btn-primary mr-3">
-            <i class="fa fa-file-import"></i> Import
-          </a>
-          <a href="#" class="btn btn-xs btn-success mr-3">
+          <a href="#modal-dialog" class="btn btn-xs btn-primary mr-3" data-toggle="modal" >
+            <i class="fa fa-file-import"></i> Import </a>
+
+          {{--          <a href="{{ route('admin.indicator.export', 'xls') }}"><button class="btn btn-success">Download Excel xls</button></a>--}}
+          {{--          <a href=""><button class="btn btn-success">Download Excel xlsx</button></a>--}}
+
+          <a href="{{ route('admin.history.export', 'xlsx') }}" class="btn btn-xs btn-success mr-3">
             <i class="fa fa-file-export"></i> Export
           </a>
 					<div class="panel-heading-btn">
@@ -55,6 +65,8 @@
                 <th>Год</th>
                 <th>Урожай</th>
 							</tr>
+            </thead>
+
             <tbody>
             @foreach($response as $item)
               <tr>
@@ -70,7 +82,6 @@
               </tr>
             @endforeach
             </tbody>
-						</thead>
 					</table>
 				</div>
 				<!-- end panel-body -->
@@ -80,6 +91,36 @@
 		<!-- end col-10 -->
 	</div>
 	<!-- end row -->
+
+  <div class="modal fade" id="modal-dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Import файл</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        </div>
+        <form action="{{ route('admin.history.import') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+          @csrf
+          <div class="container">
+            <div class="row">
+              <div class="col-4 m-0 p-25">
+                <input type="file" name="import_file" />
+              </div>
+            </div>
+            <p class="text-right mr-4 mt-2">
+              <input type="submit" value="Import" class="btn btn-primary">
+              <a href="{{route('admin.history.index')}}" class="btn btn-danger">
+                <i class="fas fa-arrow-circle-left"></i>
+                Назад
+              </a>
+            </p>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
 @endsection
 
 @push('scripts')

@@ -15,10 +15,10 @@ class CreateQualityIndicatorsTable extends Migration
     {
         Schema::create('quality_indicators', function (Blueprint $table) {
             $table->id();
-            $table->integer('region_id')->nullable();
-            $table->integer('district_id')->nullable();
-            $table->integer('array_id')->nullable();
-            $table->integer('farmer_contour_id')->nullable();
+            $table->foreignId('region_id')->nullable()->constrained('regions')->onDelete('cascade');
+            $table->foreignId('district_id')->nullable()->constrained('districts')->onDelete('cascade');
+            $table->foreignId('array_id')->nullable()->constrained('arrays')->onDelete('cascade');
+            $table->foreignId('farmer_contour_id')->nullable()->constrained('farmer_contours')->onDelete('cascade');
             $table->year('year')->nullable();
             $table->float('quality_indicator')->nullable();
             $table->timestamps();

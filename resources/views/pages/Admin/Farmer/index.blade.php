@@ -59,7 +59,9 @@
                   <td>{{ $item->district->name }}</td>
                   <td class="text-center">
                     <a href="{{ route('admin.farmer.show', ['farmer' => $item->id]) }}" class="btn  btn-icon btn-success mr-1"><span class="fas fa-eye "></span></a>
-                    <a href="#" class="btn btn-icon btn-primary mr-1"><i class="fas fa-edit "></i></a>
+                    <button type="button" class="btn btn-icon btn-primary mr-1" data-toggle="modal" data-target="#edit-modal">
+                      <i class="fa fa-edit"></I>
+                    </button>
                     <a
                       class="btn btn-icon btn-danger delete_button"
                       data-toggle="modal"
@@ -80,6 +82,33 @@
 		<!-- end col-10 -->
 	</div>
 	<!-- end row -->
+  <div class="modal fade" id="edit-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" align="center"><b>Редактировать</b></h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{{route('admin.farmer.update')}}" class="form-group" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="box-body">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Название фермера</label>
+                <input type="text" class="form-control" name="name" placeholder="Название" >
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Закрывать</button>
+              <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 
 @push('scripts')
@@ -101,4 +130,8 @@
 			});
 		}
 	</script>
+
+  <script>
+
+  </script>
 @endpush

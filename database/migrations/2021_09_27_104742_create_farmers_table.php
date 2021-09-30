@@ -17,8 +17,8 @@ class CreateFarmersTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->float('crop_area')->nullable();
-            $table->integer('region_id')->nullable();
-            $table->integer('district_id')->nullable();
+            $table->foreignId('region_id')->nullable()->constrained('regions')->onDelete('cascade');
+            $table->foreignId('district_id')->nullable()->constrained('districts')->onDelete('cascade');
             $table->timestamps();
         });
     }

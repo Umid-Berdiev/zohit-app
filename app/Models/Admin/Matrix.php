@@ -11,7 +11,7 @@ class Matrix extends Model
     protected $guarded = [];
     protected $table = 'arrays';
 
-    public static function findOrCreate($id, $name)
+    public static function findOrCreate($id, $name, $district_id)
     {
       $obj = Matrix::find($id);
       if ($obj == null)
@@ -19,6 +19,7 @@ class Matrix extends Model
         $obj = new Matrix;
         $obj->id = $id;
         $obj->name = $name;
+        $obj->district_id = $district_id;
         $obj->save();
       }
       else

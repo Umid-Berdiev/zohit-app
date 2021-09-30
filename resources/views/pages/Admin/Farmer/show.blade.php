@@ -55,7 +55,7 @@
 								<th>№</th>
 								<th>Номер контура</th>
                 <th>Площадь посева</th>
-                <th>Действия</th>
+{{--                <th>Действия</th>--}}
 							</tr>
 						</thead>
             <tbody>
@@ -64,16 +64,16 @@
                   <td>{{ $loop->index + 1 }}</td>
                   <td>{{ $item->contour_number }}</td>
                   <td>{{ $item->crop_area }}</td>
-                  <td class="text-center">
-                    <a href="#" class="btn btn-icon btn-primary mr-1"><i class="fas fa-edit "></i></a>
-                    <a
-                      class="btn btn-icon btn-danger delete_button"
-                      data-toggle="modal"
-                      data-target="#deleteModal"
-                    >
-                      <i class="fas fa-trash  text-white"></i>
-                    </a>
-                  </td>
+{{--                  <td class="text-center">--}}
+{{--                    <a href="#" class="btn btn-icon btn-primary mr-1"><i class="fas fa-edit "></i></a>--}}
+{{--                    <a--}}
+{{--                      class="btn btn-icon btn-danger delete_button"--}}
+{{--                      data-toggle="modal"--}}
+{{--                      data-target="#deleteModal"--}}
+{{--                    >--}}
+{{--                      <i class="fas fa-trash  text-white"></i>--}}
+{{--                    </a>--}}
+{{--                  </td>--}}
                 </tr>
               @endforeach
             </tbody>
@@ -85,6 +85,10 @@
 		</div>
 		<!-- end col-10 -->
 	</div>
+  <a href="{{route('admin.farmer.index')}}" class="btn btn-danger float-right">
+    <i class="fas fa-arrow-circle-left"></i>
+    Назад
+  </a>
 	<!-- end row -->
 @endsection
 

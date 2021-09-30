@@ -15,7 +15,7 @@ class CreateFarmerContoursTable extends Migration
     {
         Schema::create('farmer_contours', function (Blueprint $table) {
             $table->id();
-            $table->integer('farmer_id')->nullable();
+            $table->foreignId('farmer_id')->nullable()->constrained('farmers')->onDelete('cascade');
             $table->integer('contour_number')->nullable();
             $table->float('crop_area')->nullable();
             $table->timestamps();

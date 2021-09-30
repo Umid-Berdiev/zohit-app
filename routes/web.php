@@ -31,14 +31,17 @@ Route::prefix('admin')->name('admin.')->group(function() {
   /** Farmers */
   Route::get('/farmers', [FarmerController::class, 'index'])->name('farmer.index');
   Route::get('/farmers/{farmer}', [FarmerController::class, 'show'])->name('farmer.show');
+  Route::post('/farmers/update', [FarmerController::class, 'update'])->name('farmer.update');
 
   /** Indicators */
   Route::get('/indicators', [IndicatorController::class, 'index'])->name('indicator.index');
-  Route::get('exportExcel/{type}', [IndicatorController::class, 'exportExcel'])->name('indicator.export');
+  Route::get('/indicators/exportExcel/{type}', [IndicatorController::class, 'exportExcel'])->name('indicator.export');
   Route::post('/indicators/importExcel', [IndicatorController::class, 'importExcel'])->name('indicator.import');
 
   /** History of contours */
   Route::get('/histories', [HistoryController::class, 'index'])->name('history.index');
+  Route::get('/histories/exportExcel/{type}', [HistoryController::class, 'exportExcel'])->name('history.export');
+  Route::post('/histories/importExcel', [HistoryController::class, 'importExcel'])->name('history.import');
 
   /** Basic data */
   Route::prefix('basic')->name('basic.')->group(function() {

@@ -16,6 +16,7 @@ class CreateArraysTable extends Migration
         Schema::create('arrays', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->foreignId('district_id')->nullable()->constrained('districts')->onDelete('cascade');
             $table->timestamps();
         });
     }

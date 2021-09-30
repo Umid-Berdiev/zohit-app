@@ -25,7 +25,7 @@ class Farmer extends Model
       return $this->hasMany(FarmerContour::class);
     }
 
-    public static function findOrCreate($farmer_id, $farmer_name, $crop_area, $region_id, $district_id)
+    public static function findOrCreate($farmer_id, $farmer_name, $crop_area, $region_id, $district_id, $contour_number)
     {
       $obj = static::find($farmer_id);
       if ($obj == null)
@@ -38,7 +38,7 @@ class Farmer extends Model
         $obj->district_id = $district_id;
         $obj->save();
       }
-      else
+      elseif (FarmerContour::where(['farmer_id' => $farmer_id, 'contour_number' => $contour_number])->first() == null)
       {
         $obj->update(['crop_area' => $obj->crop_area+$crop_area, 'name' => $farmer_name]);
       }

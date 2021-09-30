@@ -24,7 +24,7 @@ class IndicatorController extends Controller
     ]);
     Excel::import(new QualityIndicatorsImport, request()->file('import_file'));
 
-    return back()->with('success', 'User Imported Successfully.');
+    return back()->with('success', 'Imported Successfully.');
   }
 
   public function exportExcel($type)
