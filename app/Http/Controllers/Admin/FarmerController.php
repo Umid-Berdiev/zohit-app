@@ -24,4 +24,10 @@ class FarmerController extends Controller
       $response = Farmer::where('id', $farmer->id)->with('region', 'district', 'contours')->first();
       return view('pages/Admin/Farmer/show', compact('response'));
   }
+
+  public function update(Request $request)
+  {
+    Farmer::updateName($request->get('id'), $request->get('name'));
+    return back();
+  }
 }

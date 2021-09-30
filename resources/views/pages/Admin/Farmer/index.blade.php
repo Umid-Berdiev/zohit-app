@@ -36,7 +36,7 @@
 				<!-- end panel-heading -->
 				<!-- begin panel-body -->
 				<div class="panel-body">
-					<table id="data-table-scroller" class="table table-striped table-bordered  table-td-valign-middle" cellspacing="0" width="100%">
+					<table id="data-table-fixed-columns" class="table table-striped table-bordered  table-td-valign-middle" cellspacing="0" width="100%">
 						<thead>
 							<tr>
                 <th>№</th>
@@ -53,14 +53,15 @@
                 <tr>
                   <td>{{ $loop->index + 1 }}</td>
                   <td>{{ $item->id }}</td>
-                  <td>{{ $item->name }}</td>
+                  <td id="name-{{ $item->id }}">{{ $item->name }}</td>
                   <td>{{ $item->crop_area }}</td>
                   <td>{{ $item->region->name }}</td>
                   <td>{{ $item->district->name }}</td>
                   <td class="text-center">
                     <a href="{{ route('admin.farmer.show', ['farmer' => $item->id]) }}" class="btn  btn-icon btn-success mr-1"><span class="fas fa-eye "></span></a>
-                    <button type="button" class="btn btn-icon btn-primary mr-1" data-toggle="modal" data-target="#edit-modal">
-                      <i class="fa fa-edit"></I>
+
+                    <button type="button" class="btn btn-icon btn-primary mr-1 edit" data-selected="{{ $item->id }}" data-toggle="modal" data-target="#edit-modal">
+                      <i class="fa fa-edit"></i>
                     </button>
                     <a
                       class="btn btn-icon btn-danger delete_button"
@@ -97,7 +98,9 @@
             <div class="box-body">
               <div class="form-group">
                 <label for="exampleInputEmail1">Название фермера</label>
-                <input type="text" class="form-control" name="name" placeholder="Название" >
+
+                <input type="hidden" name="id" id="modal-input-id">
+                <input type="text" class="form-control" name="name" placeholder="Название" id="modal-input-name">
               </div>
             </div>
             <div class="modal-footer">
@@ -116,22 +119,31 @@
 	<script src="/assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 	<script src="/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 	<script src="/assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-	<script src="/assets/plugins/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-	<script src="/assets/plugins/datatables.net-scroller-bs4/js/scroller.bootstrap4.min.js"></script>
+{{--  <script src="/assets/plugins/datatables.net-fixedcolumns/js/dataTables.fixedcolumns.min.js"></script>--}}
+{{--  <script src="/assets/plugins/datatables.net-fixedcolumns-bs4/js/fixedcolumns.bootstrap4.min.js"></script>--}}
+{{--  <script src="/assets/js/demo/table-manage-fixed-columns.demo.js"></script>--}}
 	<script>
-		if ($('#data-table-scroller').length !== 0) {
-			$('#data-table-scroller').DataTable({
-				// ajax:           "/assets/js/demo/json/scroller_demo.json",
-				deferRender:    true,
-				scrollY:        300,
-				scrollCollapse: true,
-				scroller:       true,
-				responsive: true
+		if ($('#data-table-fixed-columns').length !== 0) {
+			$('#data-table-fixed-columns').DataTable({
+        scrollY:        300,
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+        fixedColumns:   true
 			});
 		}
 	</script>
 
   <script>
+    $(document).ready(function() {
+      jQuery('.edit').click(function() {
+          let id = $(this).attr('data-selected');
+          let name = $('#name-' + id).text();
+          console.log(this);
+          $('#modal-input-name').val(name);
+          $('#modal-input-id').val(id);
+      });
+    });
 
   </script>
 @endpush

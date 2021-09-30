@@ -7,7 +7,7 @@ Website: http://www.seantheme.com/color-admin/admin/
 
 var handleDataTableFixedColumns = function() {
 	"use strict";
-    
+
 	if ($('#data-table-fixed-columns').length !== 0) {
 		$('#data-table-fixed-columns').DataTable({
 			scrollY:        300,

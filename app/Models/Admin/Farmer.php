@@ -44,4 +44,10 @@ class Farmer extends Model
       }
       return $obj->id;
     }
+
+    public static function updateName($id, $name)
+    {
+      $farmer = Farmer::find($id);
+      $farmer->update(['name' => $name]);
+    }
 }

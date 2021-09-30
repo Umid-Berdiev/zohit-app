@@ -35,7 +35,7 @@ class ContourHistoriesImport implements ToCollection, SkipsOnError, WithHeadingR
           '*.year' => 'required|date_format:Y',
           '*.crop_name' => 'required',
         ])->validate();
-        ContourHistoryJob::dispatch($rows)->delay(now()->addSeconds(5));
+        ContourHistoryJob::dispatch($rows);
     }
 
     public function onError(Throwable $e)
