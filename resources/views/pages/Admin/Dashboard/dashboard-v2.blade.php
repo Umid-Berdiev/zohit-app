@@ -27,7 +27,6 @@
 				<div class="stats-content">
 					<div class="stats-title">Общие фермеры</div>
 					<div class="stats-number">{{ $farmer }}</div>
-
 				</div>
 			</div>
 		</div>

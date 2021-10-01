@@ -48,4 +48,19 @@ class QualityIndicator extends Model
         $obj->quality_indicator = $quality_indicator;
         $obj->save();
     }
+
+    public static function getIndicators()
+    {
+      $response = QualityIndicator::with('region', 'district', 'matrix','farmerContour', 'farmer');
+      if(request('region')) {
+        $response->where('region_id', request('region'));
+      }
+      if(request('district')) {
+        $response->where('district_id', request('district'));
+      }
+      if(request('year')) {
+        $response->where('year', request('year'));
+      }
+      return $response->paginate(50);
+    }
 }

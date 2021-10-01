@@ -48,6 +48,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
   Route::prefix('basic')->name('basic.')->group(function() {
     Route::get('/regions', [BasicController::class, 'getRegions'])->name('region.index');
     Route::get('/districts', [BasicController::class, 'getDistricts'])->name('district.index');
+    Route::get('/districts/{region}', [BasicController::class, 'getDistrictList'])->name('district.list');
     Route::get('/matrix', [BasicController::class, 'getMatrix'])->name('matrix.index');
   });
 

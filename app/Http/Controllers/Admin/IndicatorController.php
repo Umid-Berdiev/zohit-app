@@ -6,6 +6,7 @@ use App\Exports\QualityIndicatorsExport;
 use App\Http\Controllers\Controller;
 use App\Imports\QualityIndicatorsImport;
 use App\Models\Admin\QualityIndicator;
+use App\Models\Admin\Region;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -13,8 +14,9 @@ class IndicatorController extends Controller
 {
   public function index()
   {
-    $response = QualityIndicator::with('region', 'district', 'matrix','farmerContour', 'farmer')->paginate(50);
-    return view('pages/Admin/Indicator/index', compact('response'));
+    $region = Region::all();
+    $response = QualityIndicator::getIndicators();
+    return view('pages/Admin/Indicator/index', compact('response', 'region'));
   }
 
   public function importExcel(Request $request)

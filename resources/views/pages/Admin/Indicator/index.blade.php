@@ -19,6 +19,63 @@
 
 	<h1 class="page-header">Показатели качества</h1>
 	<!-- end page-header -->
+  <form action="{{ route('admin.indicator.index') }}" class="form-group" method="get" enctype="multipart/form-data">
+  <div class="row">
+
+      <div class="col-xl-3 col-md-6">
+        <div class="form-group">
+          <label for="region">Выберите регион</label>
+          <select name="region" id="region" class="form-control">
+            <option value="">Выберите регион</option>
+            @foreach($region as $value)
+              <option value="{{$value->id}}" {{ $value->id == request('region') ? "selected" : "" }}>{{$value->name}}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6">
+        <div class="form-group">
+          <label for="district">Выберите район</label>
+          <select name="district" id="district" class="form-control">
+            <option value="">Выберите район</option>
+          </select>
+        </div>
+      </div>
+
+{{--      <div class="col-xl-3 col-md-6">--}}
+{{--        <div class="form-group">--}}
+{{--          <label for="farmer">Выберите район</label>--}}
+{{--          <select name="district" id="district" class="form-control">--}}
+{{--            <option value="">Выберите район</option>--}}
+{{--          </select>--}}
+{{--        </div>--}}
+{{--      </div>--}}
+
+      <?php $years = range(strftime("%Y", time()), 2000); ?>
+
+      <div class="col-xl-3 col-md-6">
+        <div class="form-group">
+          <label for="year">Выберите год</label>
+          <select name="year" id="year" class="form-control">
+              <option value="">Выберите год</option>
+              @foreach($years as $year)
+                <option value="{{ $year }}" {{ $year == request('year') ? "selected" : "" }}>{{ $year }}</option>
+              @endforeach
+          </select>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6 p-20">
+          <button type="submit" class="btn btn-success">
+            <i class="fas fa-filter"></i>
+            Filter
+          </button>
+      </div>
+  </div>
+  </form>
+
+
 	<!-- begin row -->
 	<div class="row">
 {{--    @if($message = Session::get('success'))--}}
@@ -92,7 +149,7 @@
               @endforeach
             </tbody>
 					</table>
-            Записи с {{ ($response->currentpage()-1)*$response->perpage()+1}} по {{($response->currentpage()-1)*$response->perpage() + count($response->items())}} из {{ $response->total() }} записей
+            Записи с {{ ($response->currentpage()-1)*$response->perpage() + ($response->total()==0?0:1)}} по {{($response->currentpage()-1)*$response->perpage() + count($response->items())}} из {{ $response->total() }} записей
             <div class="float-right">{{$response->links()}}</div>
 				</div>
 				<!-- end panel-body -->
@@ -151,5 +208,30 @@
         searching:      false,
       });
     }
+  </script>
+
+  <script>
+    $(document).ready(function(){
+      $('select[name="region"]').on('change',function(){
+        var region_id= $(this).val();
+        if (region_id) {
+          $.ajax({
+            url: "{{ url('admin/basic/districts') }}/"+region_id,
+            type: "GET",
+            dataType: "json",
+            success: function(data){
+              $('select[name="district"]').empty();
+              $('select[name="district"]').append('<option value="">Выберите район</option>');
+              $.each(data,function(key,value){
+                $('select[name="district"]').append('<option value="'+value.id+'">'+value.name+'</option>');
+              });
+            }
+          });
+        }else {
+          $('select[name="district"]').empty();
+        }
+      });
+
+    });
   </script>
 @endpush

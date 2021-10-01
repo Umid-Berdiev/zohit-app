@@ -148,9 +148,6 @@
 	<script src="/assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 	<script src="/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 	<script src="/assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-{{--  <script src="/assets/plugins/datatables.net-fixedcolumns/js/dataTables.fixedcolumns.min.js"></script>--}}
-{{--  <script src="/assets/plugins/datatables.net-fixedcolumns-bs4/js/fixedcolumns.bootstrap4.min.js"></script>--}}
-{{--  <script src="/assets/js/demo/table-manage-fixed-columns.demo.js"></script>--}}
 	<script>
 		if ($('#data-table-fixed-columns').length !== 0) {
 			$('#data-table-fixed-columns').DataTable({

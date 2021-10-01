@@ -27,4 +27,10 @@ class BasicController extends Controller
     $response = Matrix::with('district')->get();
     return view('pages/Admin/Basic/Matrix/index', compact('response'));
   }
+
+  public function getDistrictList($region)
+  {
+    $response = District::where('region_id', $region)->get();
+    return $response;
+  }
 }
