@@ -24,7 +24,7 @@ class BasicController extends Controller
 
   public function getMatrix()
   {
-    $response = Matrix::all();
+    $response = Matrix::with('district')->get();
     return view('pages/Admin/Basic/Matrix/index', compact('response'));
   }
 }

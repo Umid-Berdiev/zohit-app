@@ -28,4 +28,9 @@ class Matrix extends Model
       }
       return $obj->id;
     }
+
+    public function district()
+    {
+      return $this->belongsTo(District::class);
+    }
 }

@@ -50,4 +50,10 @@ class Farmer extends Model
       $farmer = Farmer::find($id);
       $farmer->update(['name' => $name]);
     }
+
+    public static function destroyFarmer($id)
+    {
+      $farmer = Farmer::find($id);
+      $farmer->delete();
+    }
 }

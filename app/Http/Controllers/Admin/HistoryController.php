@@ -13,7 +13,7 @@ class HistoryController extends Controller
 {
     public function index()
     {
-      $response = ContourHistory::with('region', 'district', 'matrix','farmerContour', 'farmer')->paginate(10);
+      $response = ContourHistory::with('region', 'district', 'matrix','farmerContour', 'farmer')->paginate(50);
       return view('pages/Admin/History/index', compact('response'));
     }
 

@@ -62,7 +62,7 @@
 				<!-- end panel-heading -->
 				<!-- begin panel-body -->
 				<div class="panel-body">
-					<table id="data-table-scroller" class="table table-striped table-bordered  table-td-valign-middle" cellspacing="0" width="100%">
+					<table id="data-table-fixed-columns" class="table table-striped table-bordered  table-td-valign-middle" cellspacing="0" width="100%">
 						<thead>
 							<tr>
 								<th>№</th>
@@ -79,7 +79,7 @@
             <tbody>
               @foreach($response as $item)
                 <tr>
-                  <td> {{ $loop->index + 1 }} </td>
+                  <td> {{ ($response->currentpage()-1)*$response->perpage() + ($loop->index + 1) }} </td>
                   <td> {{ $item->region->name }} </td>
                   <td> {{ $item->district->name }} </td>
                   <td> {{ $item->matrix->name }} </td>
@@ -92,6 +92,8 @@
               @endforeach
             </tbody>
 					</table>
+            Записи с {{ ($response->currentpage()-1)*$response->perpage()+1}} по {{($response->currentpage()-1)*$response->perpage() + count($response->items())}} из {{ $response->total() }} записей
+            <div class="float-right">{{$response->links()}}</div>
 				</div>
 				<!-- end panel-body -->
 			</div>
@@ -137,18 +139,17 @@
 	<script src="/assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 	<script src="/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 	<script src="/assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-	<script src="/assets/plugins/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-	<script src="/assets/plugins/datatables.net-scroller-bs4/js/scroller.bootstrap4.min.js"></script>
-	<script>
-		if ($('#data-table-scroller').length !== 0) {
-			$('#data-table-scroller').DataTable({
-				// ajax:           "/assets/js/demo/json/scroller_demo.json",
-				deferRender:    true,
-				scrollY:        300,
-				scrollCollapse: true,
-				scroller:       true,
-				responsive: true
-			});
-		}
-	</script>
+  <script>
+    if ($('#data-table-fixed-columns').length !== 0) {
+      $('#data-table-fixed-columns').DataTable({
+        scrollY:        400,
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+        fixedColumns:   true,
+        info:           false,
+        searching:      false,
+      });
+    }
+  </script>
 @endpush

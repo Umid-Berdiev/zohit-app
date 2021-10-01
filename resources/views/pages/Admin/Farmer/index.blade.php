@@ -63,13 +63,9 @@
                     <button type="button" class="btn btn-icon btn-primary mr-1 edit" data-selected="{{ $item->id }}" data-toggle="modal" data-target="#edit-modal">
                       <i class="fa fa-edit"></i>
                     </button>
-                    <a
-                      class="btn btn-icon btn-danger delete_button"
-                      data-toggle="modal"
-                      data-target="#deleteModal"
-                    >
+                    <button type="button" class="btn btn-icon btn-danger delete_button delete" data-selected="{{ $item->id }}" data-toggle="modal" data-target="#delete-modal">
                       <i class="fas fa-trash  text-white"></i>
-                    </a>
+                    </button>
                   </td>
                 </tr>
               @endforeach
@@ -83,6 +79,7 @@
 		<!-- end col-10 -->
 	</div>
 	<!-- end row -->
+  <!-- begin edit modal -->
   <div class="modal fade" id="edit-modal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -104,7 +101,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Закрывать</button>
+              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
               <button type="submit" class="btn btn-primary">Сохранить изменения</button>
             </div>
           </form>
@@ -112,6 +109,38 @@
       </div>
     </div>
   </div>
+  <!-- end edit modal -->
+
+  <!-- begin delete modal -->
+  <div class="modal fade" id="delete-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" align="center"><b>Удалить</b></h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{{ route('admin.farmer.delete') }}" class="form-group" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="box-body">
+              <div class="form-group">
+                <label for="exampleInputEmail1" class="text-danger">Вся соответствующая информация будет удалена!</label>
+                <input type="hidden" name="id" id="modal-delete-id">
+                <input type="text" disabled class="form-control" name="name" placeholder="Название" id="modal-delete-name">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+              <button type="submit" class="btn btn-danger">Удалить</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end delete modal -->
 @endsection
 
 @push('scripts')
@@ -139,11 +168,22 @@
       jQuery('.edit').click(function() {
           let id = $(this).attr('data-selected');
           let name = $('#name-' + id).text();
-          console.log(this);
           $('#modal-input-name').val(name);
           $('#modal-input-id').val(id);
       });
     });
 
   </script>
+
+  <script>
+    $(document).ready(function() {
+      jQuery('.delete').click(function() {
+        let id = $(this).attr('data-selected');
+        let name = $('#name-' + id).text();
+        $('#modal-delete-name').val(name);
+        $('#modal-delete-id').val(id);
+      });
+    });
+  </script>
+
 @endpush

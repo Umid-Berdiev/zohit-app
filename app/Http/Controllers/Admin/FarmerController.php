@@ -30,4 +30,10 @@ class FarmerController extends Controller
     Farmer::updateName($request->get('id'), $request->get('name'));
     return back();
   }
+
+  public function destroy(Request $request)
+  {
+    Farmer::destroyFarmer($request->get('id'));
+    return back();
+  }
 }

@@ -13,7 +13,7 @@ class IndicatorController extends Controller
 {
   public function index()
   {
-    $response = QualityIndicator::with('region', 'district', 'matrix','farmerContour', 'farmer')->get();
+    $response = QualityIndicator::with('region', 'district', 'matrix','farmerContour', 'farmer')->paginate(50);
     return view('pages/Admin/Indicator/index', compact('response'));
   }
 

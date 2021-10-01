@@ -42,6 +42,7 @@
               <th>№</th>
               <th>ID</th>
               <th>Название</th>
+              <th>Район</th>
             </tr>
             </thead>
             <tbody>
@@ -50,6 +51,7 @@
                   <td> {{ $loop->index + 1 }} </td>
                   <td> {{ $item->id }} </td>
                   <td> {{ $item->name }} </td>
+                  <td> {{ $item->district->name }} </td>
                 </tr>
               @endforeach
             </tbody>
