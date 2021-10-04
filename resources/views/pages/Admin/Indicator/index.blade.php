@@ -100,6 +100,10 @@
 				<div class="panel-heading">
 					<h4 class="panel-title">Показатели качества</h4>
 
+          <a href="{{ route('admin.indicator.template-export', 'xlsx') }}" class="btn btn-xs btn-info mr-3">
+            <i class="fa fa-download"></i> Шаблон Export
+          </a>
+
           <a href="#modal-dialog" class="btn btn-xs btn-primary mr-3" data-toggle="modal" >
             <i class="fa fa-file-import"></i> Import </a>
 

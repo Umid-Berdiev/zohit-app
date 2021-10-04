@@ -38,11 +38,13 @@ Route::prefix('admin')->name('admin.')->group(function() {
   /** Indicators */
   Route::get('/indicators', [IndicatorController::class, 'index'])->name('indicator.index');
   Route::get('/indicators/exportExcel/{type}', [IndicatorController::class, 'exportExcel'])->name('indicator.export');
+  Route::get('/indicators/templateExportExcel/{type}', [IndicatorController::class, 'templateExportExcel'])->name('indicator.template-export');
   Route::post('/indicators/importExcel', [IndicatorController::class, 'importExcel'])->name('indicator.import');
 
   /** History of contours */
   Route::get('/histories', [HistoryController::class, 'index'])->name('history.index');
   Route::get('/histories/exportExcel/{type}', [HistoryController::class, 'exportExcel'])->name('history.export');
+  Route::get('/histories/templateExportExcel/{type}', [HistoryController::class, 'templateExportExcel'])->name('history.template-export');
   Route::post('/histories/importExcel', [HistoryController::class, 'importExcel'])->name('history.import');
 
   /** Basic data */

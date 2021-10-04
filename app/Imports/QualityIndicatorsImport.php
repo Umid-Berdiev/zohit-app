@@ -40,7 +40,9 @@ class QualityIndicatorsImport implements ToCollection, SkipsOnError, WithHeading
             '*.quality_indicator' => 'required',
         ])->validate();
 
-        QualityIndicatorImport::dispatch($rows)->delay(now()->addSeconds(5));;
+      dispatch(new QualityIndicatorImport($rows));
+
+//        QualityIndicatorImport::dispatch($rows)->delay(now()->addSeconds(5));;
 //        foreach ($rows as $row) {
 //            $farmer_contour = FarmerContour::findOrCreate($row['farmer_id'], $row['contour_number'], $row['crop_area']);
 //            if ($farmer_contour['is_created'])

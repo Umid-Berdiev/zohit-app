@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\QualityIndicatorsExport;
+use App\Exports\TemplateIndicatorsExport;
 use App\Http\Controllers\Controller;
 use App\Imports\QualityIndicatorsImport;
 use App\Models\Admin\QualityIndicator;
@@ -32,5 +33,10 @@ class IndicatorController extends Controller
   public function exportExcel($type)
   {
     return \Excel::download(new QualityIndicatorsExport, 'quality_indicator.'.$type);
+  }
+
+  public function templateExportExcel($type)
+  {
+    return \Excel::download(new TemplateIndicatorsExport, 'quality_indicator.'.$type);
   }
 }

@@ -6,8 +6,9 @@ use App\Models\Admin\ContourHistory;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class ContourHistoriesExport implements FromCollection, WithHeadings, WithMapping
+class ContourHistoriesExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection

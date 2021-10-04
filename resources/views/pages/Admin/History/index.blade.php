@@ -88,13 +88,16 @@
 				<!-- begin panel-heading -->
 				<div class="panel-heading">
 					<h4 class="panel-title">Ежегодная история контуров</h4>
+          <a href="{{ route('admin.history.template-export', ['type' => 'xlsx']) }}" class="btn btn-xs btn-success mr-3">
+            <i class="fa fa-file-export"></i> Шаблон Export
+          </a>
           <a href="#modal-dialog" class="btn btn-xs btn-primary mr-3" data-toggle="modal" >
             <i class="fa fa-file-import"></i> Import </a>
 
           {{--          <a href="{{ route('admin.indicator.export', 'xls') }}"><button class="btn btn-success">Download Excel xls</button></a>--}}
           {{--          <a href=""><button class="btn btn-success">Download Excel xlsx</button></a>--}}
 
-          <a href="{{ route('admin.history.export', 'xlsx') }}" class="btn btn-xs btn-success mr-3">
+          <a href="{{ route('admin.history.export', ['type' => 'xlsx']) }}" class="btn btn-xs btn-success mr-3">
             <i class="fa fa-file-export"></i> Export
           </a>
 					<div class="panel-heading-btn">
@@ -227,13 +230,11 @@
       $('select[name="district"]').bind('change',function(){
         var district_id= $(this).val();
         if (district_id) {
-          console.log(district_id);
           $.ajax({
             url: "{{ url('admin/farmers/list') }}/"+district_id,
             type: "GET",
             dataType: "json",
             success: function(data){
-              console.log(data);
               $('select[name="farmer"]').empty();
               $('select[name="farmer"]').append('<option value="">Выберите фермер</option>');
               $.each(data,function(key,value){

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\ContourHistoriesExport;
+use App\Exports\TemplateHistoriesExport;
 use App\Http\Controllers\Controller;
 use App\Imports\ContourHistoriesImport;
 use App\Models\Admin\ContourHistory;
@@ -32,5 +33,10 @@ class HistoryController extends Controller
     public function exportExcel($type)
     {
       return \Excel::download(new ContourHistoriesExport, 'contour_histories.'.$type);
+    }
+
+    public function templateExportExcel($type)
+    {
+      return \Excel::download(new TemplateHistoriesExport, 'contour_histories.'.$type);
     }
 }
