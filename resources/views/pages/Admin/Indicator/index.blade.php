@@ -43,18 +43,18 @@
         </div>
       </div>
 
-{{--      <div class="col-xl-3 col-md-6">--}}
-{{--        <div class="form-group">--}}
-{{--          <label for="farmer">Выберите район</label>--}}
-{{--          <select name="district" id="district" class="form-control">--}}
-{{--            <option value="">Выберите район</option>--}}
-{{--          </select>--}}
-{{--        </div>--}}
-{{--      </div>--}}
+      <div class="col-xl-3 col-md-6">
+        <div class="form-group">
+          <label for="farmer">Выберите фермер</label>
+          <select name="farmer" id="farmer" class="form-control">
+            <option value="">Выберите фермер</option>
+          </select>
+        </div>
+      </div>
 
       <?php $years = range(strftime("%Y", time()), 2000); ?>
 
-      <div class="col-xl-3 col-md-6">
+      <div class="col-xl-2 col-md-6">
         <div class="form-group">
           <label for="year">Выберите год</label>
           <select name="year" id="year" class="form-control">
@@ -66,10 +66,9 @@
         </div>
       </div>
 
-      <div class="col-xl-3 col-md-6 p-20">
-          <button type="submit" class="btn btn-success">
-            <i class="fas fa-filter"></i>
-            Filter
+      <div class="col-xl-1 col-md-6">
+          <button type="submit" class="btn btn-success" style="margin-top: 25px">
+            Фильтр
           </button>
       </div>
   </div>
@@ -231,7 +230,31 @@
           $('select[name="district"]').empty();
         }
       });
-
+    });
+  </script>
+  <script>
+    $(document).ready(function(){
+      $('select[name="district"]').on('change',function(){
+        var district_id= $(this).val();
+        if (district_id) {
+          console.log(district_id);
+          $.ajax({
+            url: "{{ url('admin/farmers/list') }}/"+district_id,
+            type: "GET",
+            dataType: "json",
+            success: function(data){
+              console.log(data);
+              $('select[name="farmer"]').empty();
+              $('select[name="farmer"]').append('<option value="">Выберите фермер</option>');
+              $.each(data,function(key,value){
+                $('select[name="farmer"]').append('<option value="'+value.id+'">'+value.name+'</option>');
+              });
+            }
+          });
+        }else {
+          $('select[name="farmer"]').empty();
+        }
+      });
     });
   </script>
 @endpush

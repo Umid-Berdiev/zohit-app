@@ -49,18 +49,15 @@ class QualityIndicator extends Model
         $obj->save();
     }
 
+//    public function filterFarmer()
+//    {
+//      $this->
+//    }
+
     public static function getIndicators()
     {
       $response = QualityIndicator::with('region', 'district', 'matrix','farmerContour', 'farmer');
-      if(request('region')) {
-        $response->where('region_id', request('region'));
-      }
-      if(request('district')) {
-        $response->where('district_id', request('district'));
-      }
-      if(request('year')) {
-        $response->where('year', request('year'));
-      }
+      $response = ContourHistory::filterResponse($response);
       return $response->paginate(50);
     }
 }

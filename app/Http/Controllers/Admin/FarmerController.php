@@ -36,4 +36,10 @@ class FarmerController extends Controller
     Farmer::destroyFarmer($request->get('id'));
     return back();
   }
+
+  public function getFarmerList($district)
+  {
+    $response = Farmer::where('district_id', $district)->get();
+    return $response;
+  }
 }

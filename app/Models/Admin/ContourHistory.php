@@ -49,4 +49,31 @@ class ContourHistory extends Model
         $obj->crop_name = $crop_name;
         $obj->save();
     }
+
+    public static function filterResponse($response)
+    {
+      if(request('region')) {
+        $response->where('region_id', request('region'));
+      }
+      if(request('district')) {
+        $response->where('district_id', request('district'));
+      }
+      if(request('farmer')) {
+        $response->whereHas('farmerContour', function($q)
+        {
+          $q->where('farmer_id', request('farmer'));
+        });
+      }
+      if(request('year')) {
+        $response->where('year', request('year'));
+      }
+      return $response;
+    }
+
+    public static function getHistories()
+    {
+      $response = ContourHistory::with('region', 'district', 'matrix','farmerContour', 'farmer');
+      $response = ContourHistory::filterResponse($response);
+      return $response->paginate(50);
+    }
 }

@@ -6,6 +6,7 @@ use App\Exports\ContourHistoriesExport;
 use App\Http\Controllers\Controller;
 use App\Imports\ContourHistoriesImport;
 use App\Models\Admin\ContourHistory;
+use App\Models\Admin\Region;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -13,8 +14,9 @@ class HistoryController extends Controller
 {
     public function index()
     {
-      $response = ContourHistory::with('region', 'district', 'matrix','farmerContour', 'farmer')->paginate(50);
-      return view('pages/Admin/History/index', compact('response'));
+      $response = ContourHistory::getHistories();
+      $region = Region::all();
+      return view('pages/Admin/History/index', compact('response', 'region'));
     }
 
     public function importExcel(Request $request)

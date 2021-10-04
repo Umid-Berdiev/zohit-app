@@ -18,6 +18,60 @@
 	<!-- begin page-header -->
 	<h1 class="page-header">Ежегодная история контуров</h1>
 	<!-- end page-header -->
+  <form action="{{ route('admin.history.index') }}" class="form-group" method="get" enctype="multipart/form-data">
+    <div class="row">
+
+      <div class="col-xl-3 col-md-6">
+        <div class="form-group">
+          <label for="region">Выберите регион</label>
+          <select name="region" id="region" class="form-control">
+            <option value="">Выберите регион</option>
+            @foreach($region as $value)
+              <option value="{{$value->id}}" {{ $value->id == request('region') ? "selected" : "" }}>{{$value->name}}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6">
+        <div class="form-group">
+          <label for="district">Выберите район</label>
+          <select name="district" id="district" class="form-control">
+            <option value="">Выберите район</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6">
+        <div class="form-group">
+          <label for="farmer">Выберите фермер</label>
+          <select name="farmer" id="farmer" class="form-control">
+            <option value="">Выберите фермер</option>
+          </select>
+        </div>
+      </div>
+
+      <?php $years = range(strftime("%Y", time()), 2000); ?>
+
+      <div class="col-xl-2 col-md-6">
+        <div class="form-group">
+          <label for="year">Выберите год</label>
+          <select name="year" id="year" class="form-control">
+            <option value="">Выберите год</option>
+            @foreach($years as $year)
+              <option value="{{ $year }}" {{ $year == request('year') ? "selected" : "" }}>{{ $year }}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+
+      <div class="col-xl-1 col-md-6">
+        <button type="submit" class="btn btn-success" style="margin-top: 25px">
+          Фильтр
+        </button>
+      </div>
+    </div>
+  </form>
 	<!-- begin row -->
 	<div class="row">
     @if ($errors->any())
@@ -145,4 +199,52 @@
       });
     }
 	</script>
+  <script>
+    $(document).ready(function(){
+      $('select[name="region"]').bind('change',function(){
+        var region_id= $(this).val();
+        if (region_id) {
+          $.ajax({
+            url: "{{ url('admin/basic/districts') }}/"+region_id,
+            type: "GET",
+            dataType: "json",
+            success: function(data){
+              $('select[name="district"]').empty();
+              $('select[name="district"]').append('<option value="">Выберите район</option>');
+              $.each(data,function(key,value){
+                $('select[name="district"]').append('<option value="'+value.id+'">'+value.name+'</option>');
+              });
+            }
+          });
+        }else {
+          $('select[name="district"]').empty();
+        }
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function(){
+      $('select[name="district"]').bind('change',function(){
+        var district_id= $(this).val();
+        if (district_id) {
+          console.log(district_id);
+          $.ajax({
+            url: "{{ url('admin/farmers/list') }}/"+district_id,
+            type: "GET",
+            dataType: "json",
+            success: function(data){
+              console.log(data);
+              $('select[name="farmer"]').empty();
+              $('select[name="farmer"]').append('<option value="">Выберите фермер</option>');
+              $.each(data,function(key,value){
+                $('select[name="farmer"]').append('<option value="'+value.id+'">'+value.name+'</option>');
+              });
+            }
+          });
+        }else {
+          $('select[name="farmer"]').empty();
+        }
+      });
+    });
+  </script>
 @endpush

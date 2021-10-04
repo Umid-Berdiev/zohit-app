@@ -33,6 +33,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
   Route::get('/farmers/{farmer}', [FarmerController::class, 'show'])->name('farmer.show');
   Route::post('/farmers/update', [FarmerController::class, 'update'])->name('farmer.update');
   Route::post('/farmers/delete', [FarmerController::class, 'destroy'])->name('farmer.delete');
+  Route::get('/farmers/list/{district}', [FarmerController::class, 'getFarmerList'])->name('farmer.filter-list');
 
   /** Indicators */
   Route::get('/indicators', [IndicatorController::class, 'index'])->name('indicator.index');
