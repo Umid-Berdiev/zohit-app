@@ -9,14 +9,16 @@ use App\Models\Admin\FarmerContour;
 use App\Models\Admin\Matrix;
 use App\Models\Admin\QualityIndicator;
 use App\Models\Admin\Region;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Throwable;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Collection;
 
-class QualityIndicatorsImport implements ToCollection, SkipsOnError, WithHeadingRow
+class QualityIndicatorsImport implements ToCollection, SkipsOnError, WithHeadingRow, WithChunkReading, ShouldQueue
 {
   /**
    * @param Collection $rows
@@ -59,5 +61,10 @@ class QualityIndicatorsImport implements ToCollection, SkipsOnError, WithHeading
     public function onError(Throwable $e)
     {
       // TODO: Implement onError() method.
+    }
+
+    public function chunkSize(): int
+    {
+      return 1000;
     }
 }

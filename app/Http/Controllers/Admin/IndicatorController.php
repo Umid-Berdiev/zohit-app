@@ -25,7 +25,8 @@ class IndicatorController extends Controller
     $request->validate([
       'import_file' => 'required'
     ]);
-    Excel::import(new QualityIndicatorsImport, request()->file('import_file'));
+    Excel::queueImport(new QualityIndicatorsImport, request()->file('import_file'));
+//    Excel::import(new QualityIndicatorsImport, request()->file('import_file'));
 
     return back()->with('success', 'Imported Successfully.');
   }
