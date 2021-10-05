@@ -26,8 +26,8 @@ class HistoryController extends Controller
         $request->validate([
           'import_file' => 'required'
         ]);
-      Excel::import(new ContourHistoriesImport, request()->file('import_file'));
-      Session::flash('success','Успешно импорт');
+      Excel::queueImport(new ContourHistoriesImport, request()->file('import_file'));
+      Session::flash('success','Успешно прошла валидацию! Данные скоро будут импортированы.');
       return back();
     }
 

@@ -28,7 +28,7 @@ class IndicatorController extends Controller
     ]);
     Excel::queueImport(new QualityIndicatorsImport, request()->file('import_file'));
 //    Excel::import(new QualityIndicatorsImport, request()->file('import_file'));
-    Session::flash('success','Успешно импорт');
+    Session::flash('success','Успешно прошла валидацию! Данные скоро будут импортированы.');
     return back();
   }
 

@@ -4,16 +4,18 @@ namespace App\Imports;
 
 use App\Jobs\Admin\ContourHistoryJob;
 use App\Models\Admin\ContourHistory;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Throwable;
 
 
-class ContourHistoriesImport implements ToCollection, SkipsOnError, WithHeadingRow
+class ContourHistoriesImport implements ToCollection, SkipsOnError, WithHeadingRow, WithChunkReading, ShouldQueue
 {
     /**
      * @param Collection $rows
@@ -36,11 +38,15 @@ class ContourHistoriesImport implements ToCollection, SkipsOnError, WithHeadingR
           '*.crop_name' => 'required',
         ])->validate();
         dispatch(new ContourHistoryJob($rows));
-//        ContourHistoryJob::dispatch($rows);
     }
 
     public function onError(Throwable $e)
     {
       // TODO: Implement onError() method.
+    }
+
+    public function chunkSize(): int
+    {
+      return 1000;
     }
 }

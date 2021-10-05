@@ -43,19 +43,6 @@ class QualityIndicatorsImport implements ToCollection, SkipsOnError, WithHeading
         ])->validate();
 
       dispatch(new QualityIndicatorImport($rows));
-
-//        QualityIndicatorImport::dispatch($rows)->delay(now()->addSeconds(5));;
-//        foreach ($rows as $row) {
-//            $farmer_contour = FarmerContour::findOrCreate($row['farmer_id'], $row['contour_number'], $row['crop_area']);
-//            if ($farmer_contour['is_created'])
-//            {
-//              Farmer::findOrCreate($row['farmer_id'], $row['farmer'], $row['crop_area'], $row['region_id'], $row['district_id']);
-//            }
-//            Matrix::findOrCreate($row['massiv_id'], $row['massiv']);
-//            Region::findOrCreate($row['region_id'], $row['region']);
-//            District::findOrCreate($row['district_id'], $row['district'], $row['region_id']);
-//            QualityIndicator::findOrCreate($row['region_id'], $row['district_id'], $row['massiv_id'], $farmer_contour['id'], $row['year'], $row['quality_indicator']);
-//        }
     }
 
     public function onError(Throwable $e)
