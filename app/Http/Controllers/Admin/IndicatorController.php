@@ -9,6 +9,7 @@ use App\Imports\QualityIndicatorsImport;
 use App\Models\Admin\QualityIndicator;
 use App\Models\Admin\Region;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 
 class IndicatorController extends Controller
@@ -27,8 +28,8 @@ class IndicatorController extends Controller
     ]);
     Excel::queueImport(new QualityIndicatorsImport, request()->file('import_file'));
 //    Excel::import(new QualityIndicatorsImport, request()->file('import_file'));
-
-    return back()->with('success', 'Imported Successfully.');
+    Session::flash('success','Успешно импорт');
+    return back();
   }
 
   public function exportExcel($type)

@@ -9,6 +9,7 @@ use App\Imports\ContourHistoriesImport;
 use App\Models\Admin\ContourHistory;
 use App\Models\Admin\Region;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 
 class HistoryController extends Controller
@@ -25,9 +26,9 @@ class HistoryController extends Controller
         $request->validate([
           'import_file' => 'required'
         ]);
-        Excel::import(new ContourHistoriesImport, request()->file('import_file'));
-
-        return back()->with('success', 'Imported Successfully.');
+      Excel::import(new ContourHistoriesImport, request()->file('import_file'));
+      Session::flash('success','Успешно импорт');
+      return back();
     }
 
     public function exportExcel($type)

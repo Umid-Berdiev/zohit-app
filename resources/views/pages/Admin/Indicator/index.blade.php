@@ -77,20 +77,16 @@
 
 	<!-- begin row -->
 	<div class="row">
-{{--    @if($message = Session::get('success'))--}}
-{{--      <div class="alert alert-info alert-dismissible fade in" role="alert">--}}
-{{--        <button type="button" class="close" data-dismiss="alert" aria-label="Close">--}}
-{{--          <span aria-hidden="true">×</span>--}}
-{{--        </button>--}}
-{{--        <strong>Success!</strong> {{ $message }}--}}
-{{--      </div>--}}
-{{--    @endif--}}
     @if ($errors->any())
       <ul class="alert alert-danger mr-2">
         @foreach ($errors->all() as $error)
           <li >{{ $error }}</li>
         @endforeach
       </ul>
+    @endif
+
+    @if(Session::has('success'))
+        <p class="alert {{ Session::get('alert-class', 'alert-success') }} col-xl-12">{{ Session::get('success') }}</p>
     @endif
 		<!-- begin col-10 -->
 		<div class="col-xl-12">
@@ -179,7 +175,7 @@
               </div>
             </div>
             <p class="text-right mr-4 mt-2">
-              <input type="submit" value="Import" class="btn btn-primary">
+              <input type="submit" value="Import" class="btn btn-primary import-button">
               <a href="{{route('admin.indicator.index')}}" class="btn btn-danger">
                 <i class="fas fa-arrow-circle-left"></i>
                 Назад
@@ -258,6 +254,14 @@
         }else {
           $('select[name="farmer"]').empty();
         }
+      });
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      jQuery('.import-button').click(function() {
+        $( "body" ).append("<div id='page-loader' class='fade show'><span class='spinner'></span></div>")
       });
     });
   </script>
