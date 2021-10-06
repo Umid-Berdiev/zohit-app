@@ -14,11 +14,12 @@ use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Throwable;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Collection;
 
-class QualityIndicatorsImport implements ToCollection, SkipsOnError, WithHeadingRow, WithChunkReading, ShouldQueue
+class QualityIndicatorsImport implements ToCollection, SkipsOnError, WithHeadingRow, WithChunkReading, ShouldQueue, WithValidation
 {
   /**
    * @param Collection $rows
@@ -27,20 +28,20 @@ class QualityIndicatorsImport implements ToCollection, SkipsOnError, WithHeading
    */
     public function collection(Collection $rows)
     {
-        Validator::make($rows->toArray(), [
-            '*.region' => 'required',
-            '*.region_id' => 'required|integer',
-            '*.district' => 'required',
-            '*.district_id' => 'required|integer',
-            '*.massiv' => 'required',
-            '*.massiv_id' => 'required|integer',
-            '*.farmer' => 'required',
-            '*.farmer_id' => 'required|integer',
-            '*.contour_number' => 'required|integer',
-            '*.crop_area' => 'required|numeric',
-            '*.year' => 'required|date_format:Y',
-            '*.quality_indicator' => 'required',
-        ])->validate();
+//        Validator::make($rows->toArray(), [
+//            '*.region' => 'required',
+//            '*.region_id' => 'required|integer',
+//            '*.district' => 'required',
+//            '*.district_id' => 'required|integer',
+//            '*.massiv' => 'required',
+//            '*.massiv_id' => 'required|integer',
+//            '*.farmer' => 'required',
+//            '*.farmer_id' => 'required|integer',
+//            '*.contour_number' => 'required|integer',
+//            '*.crop_area' => 'required|numeric',
+//            '*.year' => 'required|date_format:Y',
+//            '*.quality_indicator' => 'required',
+//        ])->validate();
 
       dispatch(new QualityIndicatorImport($rows));
     }
@@ -53,5 +54,23 @@ class QualityIndicatorsImport implements ToCollection, SkipsOnError, WithHeading
     public function chunkSize(): int
     {
       return 1000;
+    }
+
+    public function  rules(): array
+    {
+      return [
+        '*.region' => 'required',
+        '*.region_id' => 'required|integer',
+        '*.district' => 'required',
+        '*.district_id' => 'required|integer',
+        '*.massiv' => 'required',
+        '*.massiv_id' => 'required|integer',
+        '*.farmer' => 'required',
+        '*.farmer_id' => 'required|integer',
+        '*.contour_number' => 'required|integer',
+        '*.crop_area' => 'required|numeric',
+        '*.year' => 'required|date_format:Y',
+        '*.quality_indicator' => 'required',
+      ];
     }
 }

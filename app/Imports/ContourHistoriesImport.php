@@ -12,10 +12,11 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Throwable;
 
 
-class ContourHistoriesImport implements ToCollection, SkipsOnError, WithHeadingRow, WithChunkReading, ShouldQueue
+class ContourHistoriesImport implements ToCollection, SkipsOnError, WithHeadingRow, WithChunkReading, ShouldQueue, WithValidation
 {
     /**
      * @param Collection $rows
@@ -23,20 +24,20 @@ class ContourHistoriesImport implements ToCollection, SkipsOnError, WithHeadingR
      */
     public function collection(Collection $rows)
     {
-        Validator::make($rows->toArray(), [
-          '*.region' => 'required',
-          '*.region_id' => 'required|integer',
-          '*.district' => 'required',
-          '*.district_id' => 'required|integer',
-          '*.massiv' => 'required',
-          '*.massiv_id' => 'required|integer',
-          '*.farmer' => 'required',
-          '*.farmer_id' => 'required|integer',
-          '*.contour_number' => 'required|integer',
-          '*.crop_area' => 'required|numeric',
-          '*.year' => 'required|date_format:Y',
-          '*.crop_name' => 'required',
-        ])->validate();
+//        Validator::make($rows->toArray(), [
+//          '*.region' => 'required',
+//          '*.region_id' => 'required|integer',
+//          '*.district' => 'required',
+//          '*.district_id' => 'required|integer',
+//          '*.massiv' => 'required',
+//          '*.massiv_id' => 'required|integer',
+//          '*.farmer' => 'required',
+//          '*.farmer_id' => 'required|integer',
+//          '*.contour_number' => 'required|integer',
+//          '*.crop_area' => 'required|numeric',
+//          '*.year' => 'required|date_format:Y',
+//          '*.crop_name' => 'required',
+//        ])->validate();
         dispatch(new ContourHistoryJob($rows));
     }
 
@@ -48,5 +49,23 @@ class ContourHistoriesImport implements ToCollection, SkipsOnError, WithHeadingR
     public function chunkSize(): int
     {
       return 1000;
+    }
+
+    public function  rules(): array
+    {
+      return [
+        '*.region' => 'required',
+        '*.region_id' => 'required|integer',
+        '*.district' => 'required',
+        '*.district_id' => 'required|integer',
+        '*.massiv' => 'required',
+        '*.massiv_id' => 'required|integer',
+        '*.farmer' => 'required',
+        '*.farmer_id' => 'required|integer',
+        '*.contour_number' => 'required|integer',
+        '*.crop_area' => 'required|numeric',
+        '*.year' => 'required|date_format:Y',
+        '*.crop_name' => 'required',
+      ];
     }
 }
