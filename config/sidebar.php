@@ -29,6 +29,10 @@ return [
     'title' => 'Ежегодная история контуров',
     'url' => '/admin/histories',
   ],[
+    'icon' => 'fa fa-table',
+    'title' => 'Shape file',
+    'url' => '/admin/shape-file',
+  ],[
     'icon' => 'fa fa-th-large',
     'title' => 'Справочники',
     'url' => 'javascript:;',

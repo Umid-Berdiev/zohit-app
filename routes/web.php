@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\FarmerController;
 use App\Http\Controllers\Admin\IndicatorController;
 use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\BasicController;
+use App\Http\Controllers\Admin\ShapefileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,10 @@ Route::prefix('admin')->name('admin.')->group(function() {
   Route::get('/histories/exportExcel/{type}', [HistoryController::class, 'exportExcel'])->name('history.export');
   Route::get('/histories/templateExportExcel/{type}', [HistoryController::class, 'templateExportExcel'])->name('history.template-export');
   Route::post('/histories/importExcel', [HistoryController::class, 'importExcel'])->name('history.import');
+
+  /** Import Shape file */
+  Route::get('/shape-file', [ShapefileController::class, 'index'])->name('shape-file.index');
+  Route::post('/shape-file/import', [ShapefileController::class, 'importShapeFile'])->name('shape-file.import');
 
   /** Basic data */
   Route::prefix('basic')->name('basic.')->group(function() {
