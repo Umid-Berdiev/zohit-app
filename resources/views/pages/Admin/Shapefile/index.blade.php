@@ -118,21 +118,21 @@
 				<!-- end panel-heading -->
 				<!-- begin panel-body -->
 				<div class="panel-body">
-					<table id="data-table-fixed-columns" class="table table-striped table-bordered  table-td-valign-middle" cellspacing="0" width="100%">
-						<thead>
-							<tr>
-								<th>№</th>
-{{--								<th>Область</th>--}}
-{{--								<th>Район</th>--}}
-{{--								<th>Массив</th>--}}
-								<th>Фермер</th>
-                <th>Номер контура</th>
-                <th>Площадь посева</th>
-{{--                <th>Год</th>--}}
-{{--                <th>Показатели качества</th>--}}
-              </tr>
-						</thead>
-            <tbody>
+            <table id="data-table-fixed-columns" class="table table-striped table-bordered  table-td-valign-middle" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th>№</th>
+  {{--								<th>Область</th>--}}
+  {{--								<th>Район</th>--}}
+  {{--								<th>Массив</th>--}}
+                  <th>Фермер</th>
+                  <th>Номер контура</th>
+                  <th>Площадь посева</th>
+  {{--                <th>Год</th>--}}
+  {{--                <th>Показатели качества</th>--}}
+                </tr>
+              </thead>
+              <tbody>
               @foreach($response as $item)
                 <tr>
                   <td> {{ ($response->currentpage()-1)*$response->perpage() + ($loop->index + 1) }} </td>

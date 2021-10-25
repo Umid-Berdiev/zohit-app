@@ -15,7 +15,7 @@
 			<span class="icon-bar"></span>
 		</button>
 		@endif
-		<a href="{{ route('admin.dashboard') }}" class="navbar-brand"><img src="{{ asset('assets/img/logo/crop.png') }}" height="50"> <b>Smart</b> Crop</a>
+		<a href="{{ route('portal.index') }}" class="navbar-brand"><img src="{{ asset('assets/img/logo/crop.png') }}" height="50"> <b>Smart</b> Crop</a>
 		@if ($headerMegaMenu)
 			<button type="button" class="navbar-toggle pt-0 pb-0 mr-0" data-toggle="collapse" data-target="#top-navbar">
 				<span class="fa-stack fa-lg text-inverse">

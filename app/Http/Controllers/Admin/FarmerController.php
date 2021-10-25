@@ -39,7 +39,7 @@ class FarmerController extends Controller
 
   public function getFarmerList($district)
   {
-    $response = Farmer::where('district_id', $district)->get();
+    $response = Farmer::where('district_id', $district)->orderBy('name')->get();
     return $response;
   }
 }

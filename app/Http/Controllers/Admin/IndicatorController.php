@@ -14,6 +14,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class IndicatorController extends Controller
 {
+
+  /**
+   * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+   */
   public function index()
   {
     $region = Region::all();
@@ -21,22 +25,33 @@ class IndicatorController extends Controller
     return view('pages/Admin/Indicator/index', compact('response', 'region'));
   }
 
+  /**
+   * @param Request $request
+   * @return \Illuminate\Http\RedirectResponse
+   */
   public function importExcel(Request $request)
   {
     $request->validate([
       'import_file' => 'required'
     ]);
     Excel::queueImport(new QualityIndicatorsImport, request()->file('import_file'));
-//    Excel::import(new QualityIndicatorsImport, request()->file('import_file'));
     Session::flash('success','Успешно прошла валидацию! Данные скоро будут импортированы.');
     return back();
   }
 
+  /**
+   * @param $type
+   * @return mixed
+   */
   public function exportExcel($type)
   {
     return \Excel::download(new QualityIndicatorsExport, 'quality_indicator.'.$type);
   }
 
+  /**
+   * @param $type
+   * @return mixed
+   */
   public function templateExportExcel($type)
   {
     return \Excel::download(new TemplateIndicatorsExport, 'quality_indicator.'.$type);

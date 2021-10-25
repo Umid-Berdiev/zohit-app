@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\IndicatorController;
 use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\BasicController;
 use App\Http\Controllers\Admin\ShapefileController;
+use App\Http\Controllers\Portal\PortalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,11 @@ use App\Http\Controllers\Admin\ShapefileController;
 */
 
 Route::get('/', function () {
-  return redirect('/admin/dashboard');
+  return redirect('/portal');
 });
+
+/**------------------Portal Routes-----------------*/
+Route::get('/portal', [PortalController::class, 'index'])->name('portal.index');
 
 /**-------------------Admin Routes-----------------*/
 Route::prefix('admin')->name('admin.')->group(function() {
