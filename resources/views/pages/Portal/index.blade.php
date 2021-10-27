@@ -42,103 +42,114 @@
   <!-- begin #content -->
   <div id="content" class="content m-0">
     <!-- end breadcrumb -->
-    <form action="{{ route('portal.index') }}" class="form-group" method="get" enctype="multipart/form-data">
-      <div class="row">
-        <div class="col-xl-3 col-md-6">
-          <div class="form-group">
-            <label for="region">Выберите регион</label>
-            <select name="region" id="region" class="form-control">
-              <option value="">Выберите регион</option>
-              @foreach($region as $value)
-                <option value="{{$value->id}}" {{ $value->id == request('region') ? "selected" : "" }}>{{$value->name}}</option>
-              @endforeach
-            </select>
-          </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-          <div class="form-group">
-            <label for="district">Выберите район</label>
-            <select name="district" id="district" class="form-control">
-              <option value="">Выберите район</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-          <div class="form-group">
-            <label for="farmer">Выберите фермер</label>
-            <select name="farmer" id="farmer" class="form-control">
-              <option value="">Выберите фермер</option>
-            </select>
-          </div>
-        </div>
-
-        <?php $years = range(strftime("%Y", time()), 2000); ?>
-
-        <div class="col-xl-3 col-md-6">
-          <div class="form-group">
-            <label for="year">Выберите соотношение</label>
-            <select name="year" id="year" class="form-control">
-              <option value="">Выберите соотношение</option>
-              <option value="">1:1</option>
-              <option value="">2:1</option>
-              <option value="">3:1</option>
-            </select>
-          </div>
-        </div>
-
-      </div>
-      <div class="row">
-        <div class="col-xl-3 col-md-6">
-          <div class="form-group">
-            <label for="region">Формат отображения</label>
-            <select name="view_type" id="view_type" class="form-control">
-              <option value="table">Таблица</option>
-              <option value="map">Карта</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-          <div class="form-group">
-            <label for="district">threshold</label>
-            <select name="threshold" id="threshold" class="form-control">
-              <option value="">Выберите</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-          <div class="form-group">
-            <label for="farmer">Выберите площадь</label>
-            <select name="area" id="area" class="form-control">
-              <option value="">Выберите площадь</option>
-            </select>
-          </div>
-        </div>
-
-        <?php $years = range(strftime("%Y", time()), 2000); ?>
-
-        <div class="col-xl-2 col-md-6">
-          <div class="form-group">
-            <label for="year">Выберите год</label>
-            <select name="year" id="year" class="form-control">
-              <option value="">Выберите год</option>
-              @foreach($years as $year)
-                <option value="{{ $year }}" {{ $year == request('year') ? "selected" : "" }}>{{ $year }}</option>
-              @endforeach
-            </select>
-          </div>
-        </div>
-
-        <div class="col-xl-1 col-md-6 p-l-25">
-          <button type="submit" class="btn btn-success" style="margin-top: 25px">
-            Фильтр
-          </button>
+    <div class="panel panel-inverse">
+      <!-- begin panel-heading -->
+      <div class="panel-heading">
+        <h4 class="panel-title">Филтр</h4>
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
         </div>
       </div>
-    </form>
+      <div class="panel-body">
+        <form action="{{ route('portal.index') }}" class="form-group" method="get" enctype="multipart/form-data">
+          <div class="row">
+            <div class="col-xl-3 col-md-6">
+              <div class="form-group">
+                <label for="region">Выберите регион</label>
+                <select name="region" id="region" class="form-control">
+                  <option value="">Выберите</option>
+                  @foreach($region as $value)
+                    <option value="{{$value->id}}" {{ $value->id == request('region') ? "selected" : "" }}>{{$value->name}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+              <div class="form-group">
+                <label for="district">Выберите район</label>
+                <select name="district" id="district" class="form-control">
+                  <option value="">Выберите</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+              <div class="form-group">
+                <label for="farmer">Выберите фермер</label>
+                <select name="farmer" id="farmer" class="form-control">
+                  <option value="">Выберите</option>
+                </select>
+              </div>
+            </div>
+
+            <?php $years = range(strftime("%Y", time()), 2000); ?>
+
+            <div class="col-xl-3 col-md-6">
+              <div class="form-group">
+                <label for="year">Выберите соотношение</label>
+                <select name="year" id="year" class="form-control">
+                  <option value="">Выберите</option>
+                  <option value="">1:1</option>
+                  <option value="">2:1</option>
+                  <option value="">3:1</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-xl-3 col-md-6">
+              <div class="form-group">
+                <label for="region">Формат отображения</label>
+                <select name="view_type" id="view_type" class="form-control">
+                  <option value="table">Таблица</option>
+                  <option value="map">Карта</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+              <div class="form-group">
+                <label for="district">Threshold</label>
+                <select name="threshold" id="threshold" class="form-control">
+                  <option value="">Выберите</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+              <div class="form-group">
+                <label for="farmer">Выберите площадь</label>
+                <select name="area" id="area" class="form-control">
+                  <option value="">Выберите</option>
+                </select>
+              </div>
+            </div>
+
+            <?php $years = range(strftime("%Y", time()), 2000); ?>
+
+            <div class="col-xl-2 col-md-6">
+              <div class="form-group">
+                <label for="year">Выберите год</label>
+                <select name="year" id="year" class="form-control">
+                  <option value="">Выберите</option>
+                  @foreach($years as $year)
+                    <option value="{{ $year }}" {{ $year == request('year') ? "selected" : "" }}>{{ $year }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+            <div class="col-xl-1 col-md-6 p-l-25">
+              <button type="submit" class="btn btn-success" style="margin-top: 25px">
+                Фильтр
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
     <!-- begin row -->
     <div class="row">
       @if ($errors->any())
