@@ -45,7 +45,7 @@
     <div class="panel panel-inverse">
       <!-- begin panel-heading -->
       <div class="panel-heading">
-        <h4 class="panel-title">Филтр</h4>
+        <h4 class="panel-title">Фильтр</h4>
         <div class="panel-heading-btn">
           <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
         </div>
@@ -55,9 +55,9 @@
           <div class="row">
             <div class="col-xl-3 col-md-6">
               <div class="form-group">
-                <label for="region">Выберите регион</label>
+                <label for="region">Выбрать регион</label>
                 <select name="region" id="region" class="form-control" required>
-                  <option value="">Выберите</option>
+                  <option value="">Выбрать</option>
                   @foreach($region as $value)
                     <option value="{{$value->id}}">{{$value->name}}</option>
                   @endforeach
@@ -67,25 +67,25 @@
 
             <div class="col-xl-3 col-md-6">
               <div class="form-group">
-                <label for="district">Выберите район</label>
+                <label for="district">Выбрать район</label>
                 <select name="district" id="district" class="form-control" required>
-                  <option value="">Выберите</option>
+                  <option value="">Выбрать</option>
                 </select>
               </div>
             </div>
 
             <div class="col-xl-3 col-md-6">
               <div class="form-group">
-                <label for="farmer">Выберите фермер</label>
+                <label for="farmer">Выбрать фермер</label>
                 <select name="farmer" id="farmer" class="form-control" required>
-                  <option value="">Выберите</option>
+                  <option value="">Выбрать</option>
                 </select>
               </div>
             </div>
 
             <div class="col-xl-3 col-md-6">
               <div class="form-group">
-                <label for="crop">Выберите тип урожая</label>
+                <label for="crop">Выбрать тип урожая</label>
                 <select name="crop" id="crop" class="form-control" required>
                   <option value="wheat"  {{ request('crop') == "wheat" ? "selected" : "" }}>G'alla</option>
                   <option value="cotton" {{ request('crop') == "cotton" ? "selected" : "" }}>Paxta</option>
@@ -97,7 +97,7 @@
           <div class="row">
             <div class="col-xl-3 col-md-6">
               <div class="form-group">
-                <label for="ratio">Выберите соотношение</label>
+                <label for="ratio">Выбрать соотношение</label>
                 <select name="ratio" id="ratio" class="form-control">
                   <option value="1" {{ request('ratio') == "1" ? "selected" : "" }}>1:1</option>
                   <option value="2" {{ request('ratio') == "2" ? "selected" : "" }}>2:1</option>
@@ -134,7 +134,7 @@
 
             <div class="col-xl-2 col-md-6">
               <div class="form-group">
-                <label for="unit">Выберите единство</label>
+                <label for="unit">Выбрать единство</label>
                 <select name="unit" id="unit" class="form-control">
                   <option value="hectare" {{request('unit') == "hectare" ? "selected" : "" }}>га</option>
                   <option value="percent" {{request('unit') == "percent" ? "selected" : "" }}>%</option>
