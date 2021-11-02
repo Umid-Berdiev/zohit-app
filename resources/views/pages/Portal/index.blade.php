@@ -56,7 +56,7 @@
             <div class="col-xl-3 col-md-6">
               <div class="form-group">
                 <label for="region">Выберите регион</label>
-                <select name="region" id="region" class="form-control">
+                <select name="region" id="region" class="form-control" required>
                   <option value="">Выберите</option>
                   @foreach($region as $value)
                     <option value="{{$value->id}}" {{ $value->id == request('region') ? "selected" : "" }}>{{$value->name}}</option>
@@ -68,7 +68,7 @@
             <div class="col-xl-3 col-md-6">
               <div class="form-group">
                 <label for="district">Выберите район</label>
-                <select name="district" id="district" class="form-control">
+                <select name="district" id="district" class="form-control" required>
                   <option value="">Выберите</option>
                 </select>
               </div>
@@ -77,7 +77,7 @@
             <div class="col-xl-3 col-md-6">
               <div class="form-group">
                 <label for="farmer">Выберите фермер</label>
-                <select name="farmer" id="farmer" class="form-control">
+                <select name="farmer" id="farmer" class="form-control" required>
                   <option value="">Выберите</option>
                 </select>
               </div>
@@ -86,7 +86,7 @@
             <div class="col-xl-3 col-md-6">
               <div class="form-group">
                 <label for="crop">Выберите тип урожая</label>
-                <select name="crop" id="crop" class="form-control">
+                <select name="crop" id="crop" class="form-control" required>
                   <option value="wheat"  {{ request('crop') == "wheat" ? "selected" : "" }}>G'alla</option>
                   <option value="cotton" {{ request('crop') == "cotton" ? "selected" : "" }}>Paxta</option>
                 </select>
@@ -99,9 +99,9 @@
               <div class="form-group">
                 <label for="ratio">Выберите соотношение</label>
                 <select name="ratio" id="ratio" class="form-control">
-                  <option value="one" {{ request('ratio') == "one" ? "selected" : "" }}>1:1</option>
-                  <option value="two" {{ request('ratio') == "two" ? "selected" : "" }}>2:1</option>
-                  <option value="three" {{ request('ratio') == "three" ? "selected" : "" }}>3:1</option>
+                  <option value="1" {{ request('ratio') == "1" ? "selected" : "" }}>1:1</option>
+                  <option value="2" {{ request('ratio') == "2" ? "selected" : "" }}>2:1</option>
+                  <option value="3" {{ request('ratio') == "3" ? "selected" : "" }}>3:1</option>
                 </select>
               </div>
             </div>

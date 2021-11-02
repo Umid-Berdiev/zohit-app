@@ -4,7 +4,7 @@
   <div class="panel panel-inverse">
     <!-- begin panel-heading -->
     <div class="panel-heading">
-      <h4 class="panel-title">Таблица</h4>
+      <h4 class="panel-title">Общая посевная площадь фермера: {{$response['total_area']}} | Общая посевная площадь: {{$response['required_area']}} га</h4>
       <div class="panel-heading-btn">
         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -24,22 +24,22 @@
           <th>Фермер</th>
           <th>Номер контура</th>
           <th>Площадь посева</th>
-          <th>Год</th>
+          <th>Показатели качества прошлого года</th>
           <th>Урожай</th>
         </tr>
         </thead>
 
         <tbody>
-        @foreach((array)$response as $item)
+        @foreach($response['data'] as $item)
           <tr>
             <td> {{$loop->index + 1 }} </td>
-            <td> {{ $item->region }} </td>
-            <td> {{ $item->district }} </td>
-            <td> {{ $item->farmer }} </td>
-            <td> {{ $item->contour_number }} </td>
-            <td> {{ $item->crop_area }} </td>
-            <td> {{ $item->year }} </td>
-            <td> {{ $item->crop_name }} </td>
+            <td> {{ $item['contour']['region'] }} </td>
+            <td> {{ $item['contour']['district'] }} </td>
+            <td> {{ $item['contour']['farmer'] }} </td>
+            <td> {{ $item['contour']['contour_number'] }} </td>
+            <td> {{ $item['contour']['crop_area'] }} </td>
+            <td> {{ $item['contour']['quality_indicator'] }} </td>
+            <td> @foreach($item['crops'] as $key => $value) {{ $key.' - '.$value }} | @endforeach </td>
           </tr>
         @endforeach
         </tbody>

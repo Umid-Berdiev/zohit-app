@@ -12,7 +12,11 @@ class PortalController extends Controller
 {
     public function index(Request $request)
     {
-      $response = Farmer::getPortalInfo();
+      $response =[];
+      if (\request('farmer'))
+      {
+        $response = Farmer::getPortalInfo();
+      }
       $region = Region::all();
       return view('pages/Portal/index', compact('response', 'region'));
     }

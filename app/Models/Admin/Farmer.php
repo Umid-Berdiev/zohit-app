@@ -72,45 +72,63 @@ class Farmer extends Model
     {
       $crops = [
         'cotton' => "Paxta",
-        'wheat' => "G'alla"
+        'wheat' => "G'alla",
+        '' => 'null'
       ];
       $crop = $crops[request('crop')];
       $farmer_id = request('farmer');
+      $ratio = request('ratio');
+      $year = date("Y",strtotime("-".$ratio." year"));
+
+      // Barcha kerakli ma'lumotlarni bazadan olish ($ratio ga qarab yillar soni o'zgaradi)
       $farmer =   DB::select(
-        "select farmers.id, r.name as region, d.name as district, farmers.name as farmer, farmers.region_id, farmers.district_id, ch.array_id,
-        fc.contour_number, fc.crop_area, ch.year, ch.crop_name, ash.geometry
+        "select farmers.id, farmers.crop_area as total_area, r.name as region, d.name as district, farmers.name as farmer, farmers.region_id, farmers.district_id, ch.array_id,
+        fc.contour_number, fc.crop_area, ch.year, ch.crop_name, ash.geometry,
+        (select quality_indicator from quality_indicators qi where qi.year = (date_part('year', CURRENT_DATE)-1) and fc.id = qi.farmer_contour_id)
         from farmers
         left join districts d on d.id = farmers.district_id
         left join regions r on r.id = farmers.region_id
         left join farmer_contours fc on farmers.id = fc.farmer_id
         left join contour_histories ch on fc.id = ch.farmer_contour_id
         left join area_shapes ash on fc.contour_number = ash.contour_number
-        where farmers.id = $farmer_id
-        order by ch.year desc"
+        where farmers.id = $farmer_id and ch.year >= $year
+        order by quality_indicator desc"
       );
-      $year = [
-        'one' => date("Y",strtotime("-1 year")),
-        'two' => date("Y",strtotime("-2 year")),
-        'three' => date("Y",strtotime("-3 year"))
-      ];
-//      foreach ($farmer as $item)
-//      {
-//        if (request('ratio') == "one"){
-//          if ($item->year >= $year[request('ratio')]){
-//
-//          }
-//        }
-//      }
-      return $farmer;
+      $response=[];
+      $contours=[];
+      $total_area=0;
+      foreach ($farmer as $item)
+      {
+        $contours[$item->contour_number]['contour'] = (array) $item;
+        $contours[$item->contour_number]['crops'][$item->year]=$item->crop_name;
+        $total_area = $item->total_area;
+      }
 
-//      $farmer = Farmer::where('id', request('farmer'));
-//      if (request('ratio') == 'one'){
-//        $farmer->whereHas('contour_histories', function($q) use($crop) {
-//          $q->whereHas('contour_histories', function($q) use($crop) {
-//            $q->where('crop_name', '!=', $crop)
-//              ->where('year', date("Y",strtotime("-1 year")));
-//          });
-//        });
-//      }
+      $area=0;
+      $required_area = request('area');
+      if (request('unit')=='percent' and $required_area!=null){
+        $required_area = ($total_area * request('area'))/100;
+      }
+
+      // Ekin turiga tekshirish
+      foreach ($contours as $key => $item)
+      {
+        $crop_names = array_count_values($item['crops']);
+        if (isset($crop_names[$crop])){
+            if ($crop_names[$crop]<request('ratio')){
+              $response[$key]=$item;
+              $area += $item['contour']['crop_area'];
+            }
+        }
+        else{
+          $response[$key]=$item;
+          $area += $item['contour']['crop_area'];
+        }
+        if ($area>=$required_area and $required_area!=null){
+          break;
+        }
+      }
+      return ['data' => $response, 'required_area' => $area, 'total_area' => $total_area];
+
     }
 }
