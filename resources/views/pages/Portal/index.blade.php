@@ -76,7 +76,7 @@
 
             <div class="col-xl-3 col-md-6">
               <div class="form-group">
-                <label for="farmer">Выбрать фермер</label>
+                <label for="farmer">Выбрать фермера</label>
                 <select name="farmer" id="farmer" class="form-control" required>
                   <option value="">Выбрать</option>
                 </select>
