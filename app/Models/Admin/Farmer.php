@@ -83,7 +83,7 @@ class Farmer extends Model
       // Barcha kerakli ma'lumotlarni bazadan olish ($ratio ga qarab yillar soni o'zgaradi)
       $farmer =   DB::select(
         "select farmers.id, farmers.crop_area as total_area, r.name as region, d.name as district, farmers.name as farmer, farmers.region_id, farmers.district_id, ch.array_id,
-        fc.contour_number, fc.crop_area, ch.year, ch.crop_name, ash.geometry,
+        fc.contour_number, fc.crop_area, ch.year, ch.crop_name, st_asgeojson(ash.geometry) as geometry,
         (select quality_indicator from quality_indicators qi where qi.year = (date_part('year', CURRENT_DATE)-1) and fc.id = qi.farmer_contour_id)
         from farmers
         left join districts d on d.id = farmers.district_id
@@ -94,13 +94,28 @@ class Farmer extends Model
         where farmers.id = $farmer_id and ch.year >= $year
         order by quality_indicator desc"
       );
+
       $response=[];
       $contours=[];
       $total_area=0;
+
       foreach ($farmer as $item)
       {
-        $contours[$item->contour_number]['contour'] = (array) $item;
-        $contours[$item->contour_number]['crops'][$item->year]=$item->crop_name;
+        $contours[$item->contour_number]['properties'] = [
+          'id' => $item->id,
+          'region' => $item->region,
+          'district' => $item->district,
+          'farmer' => $item->farmer,
+          'contour_number' => $item->contour_number,
+          'crop_area' => $item->crop_area,
+          'crop_name' => $item->crop_name,
+          'quality_indicator' => $item->quality_indicator,
+          'color' => self::setColor($item->quality_indicator),
+          'crops' => array($item->year => $item->crop_name)
+        ];
+
+        $contours[$item->contour_number]['geometry'] = json_decode($item->geometry);
+        $contours[$item->contour_number]['type'] = 'Feature';
         $total_area = $item->total_area;
       }
 
@@ -113,22 +128,33 @@ class Farmer extends Model
       // Ekin turiga tekshirish
       foreach ($contours as $key => $item)
       {
-        $crop_names = array_count_values($item['crops']);
+        $crop_names = array_count_values($item['properties']['crops']);
         if (isset($crop_names[$crop])){
             if ($crop_names[$crop]<request('ratio')){
               $response[$key]=$item;
-              $area += $item['contour']['crop_area'];
+              $area += $item['properties']['crop_area'];
             }
         }
         else{
           $response[$key]=$item;
-          $area += $item['contour']['crop_area'];
+          $area += $item['properties']['crop_area'];
         }
         if ($area>=$required_area and $required_area!=null){
           break;
         }
       }
-      return ['data' => $response, 'required_area' => $area, 'total_area' => $total_area];
+      return ["type" => "FeatureCollection", 'features' => array_values($response), 'required_area' => $area, 'total_area' => $total_area];
 
+    }
+
+    public static function setColor($indicator)
+    {
+      switch ($indicator)
+      {
+        case ($indicator>=80): return 'green'; break;
+        case ($indicator>=60): return 'orange'; break;
+        case ($indicator>=40): return 'yellow'; break;
+        default: return 'red';
+      }
     }
 }

@@ -20,6 +20,10 @@ use App\Http\Controllers\Portal\PortalController;
 |
 */
 
+Route::get('welcome', function () {
+  return view('welcome');
+});
+
 Route::get('/', function () {
   return redirect('/portal');
 });

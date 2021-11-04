@@ -28,7 +28,7 @@
           <select name="region" id="region" class="form-control">
             <option value="">Выберите регион</option>
             @foreach($region as $value)
-              <option value="{{$value->id}}" {{ $value->id == request('region') ? "selected" : "" }}>{{$value->name}}</option>
+              <option value="{{$value->id}}">{{$value->name}}</option>
             @endforeach
           </select>
         </div>

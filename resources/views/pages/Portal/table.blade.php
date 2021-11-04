@@ -30,16 +30,16 @@
         </thead>
 
         <tbody>
-        @foreach($response['data'] as $item)
+        @foreach($response['features'] as $item)
           <tr>
             <td> {{$loop->index + 1 }} </td>
-            <td> {{ $item['contour']['region'] }} </td>
-            <td> {{ $item['contour']['district'] }} </td>
-            <td> {{ $item['contour']['farmer'] }} </td>
-            <td> {{ $item['contour']['contour_number'] }} </td>
-            <td> {{ $item['contour']['crop_area'] }} </td>
-            <td> {{ $item['contour']['quality_indicator'] }} </td>
-            <td> @foreach($item['crops'] as $key => $value) {{ $key.' - '.$value }} | @endforeach </td>
+            <td> {{ $item['properties']['region'] }} </td>
+            <td> {{ $item['properties']['district'] }} </td>
+            <td> {{ $item['properties']['farmer'] }} </td>
+            <td> {{ $item['properties']['contour_number'] }} </td>
+            <td> {{ $item['properties']['crop_area'] }} </td>
+            <td> {{ $item['properties']['quality_indicator'] }} </td>
+            <td> @foreach($item['properties']['crops'] as $key => $value) {{ $key.' - '.$value }} | @endforeach </td>
           </tr>
         @endforeach
         </tbody>

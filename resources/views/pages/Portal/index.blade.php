@@ -16,6 +16,27 @@
   <link href="../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
   <link href="../assets/plugins/datatables.net-fixedcolumns-bs4/css/fixedcolumns.bootstrap4.min.css" rel="stylesheet" />
   <!-- ================== END PAGE LEVEL STYLE ================== -->
+{{--  @yield('custom-styles')--}}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+
+  <style>
+    #mapid {
+      height: 500px;
+    }
+    .legend {
+      line-height: 18px;
+      color: #555;
+    }
+    .legend i {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 8px;
+      opacity: 0.7;
+    }
+  </style>
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -258,6 +279,8 @@
     });
   });
 </script>
+
+@yield('vue-scripts')
 <!-- ================== END PAGE LEVEL JS ================== -->
 </body>
 </html>

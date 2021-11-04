@@ -18,6 +18,7 @@ class PortalController extends Controller
         $response = Farmer::getPortalInfo();
       }
       $region = Region::all();
+//      return response()->json($response);
       return view('pages/Portal/index', compact('response', 'region'));
     }
 }
