@@ -39,7 +39,7 @@
             <td> {{ $item['properties']['contour_number'] }} </td>
             <td> {{ $item['properties']['crop_area'] }} </td>
             <td> {{ $item['properties']['quality_indicator'] }} </td>
-            <td> @foreach($item['properties']['crops'] as $key => $value) {{ $key.' - '.$value }} | @endforeach </td>
+            <td> @foreach($item['crops'] as $key => $value) {{ $key.' - '.$value }} | @endforeach </td>
           </tr>
         @endforeach
         </tbody>

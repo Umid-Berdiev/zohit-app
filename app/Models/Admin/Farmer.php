@@ -111,9 +111,9 @@ class Farmer extends Model
           'crop_name' => $item->crop_name,
           'quality_indicator' => $item->quality_indicator,
           'color' => self::setColor($item->quality_indicator),
-          'crops' => array($item->year => $item->crop_name)
         ];
 
+        $contours[$item->contour_number]['crops'][$item->year] =  $item->crop_name;
         $contours[$item->contour_number]['geometry'] = json_decode($item->geometry);
         $contours[$item->contour_number]['type'] = 'Feature';
         $total_area = $item->total_area;
@@ -128,7 +128,7 @@ class Farmer extends Model
       // Ekin turiga tekshirish
       foreach ($contours as $key => $item)
       {
-        $crop_names = array_count_values($item['properties']['crops']);
+        $crop_names = array_count_values($item['crops']);
         if (isset($crop_names[$crop])){
             if ($crop_names[$crop]<request('ratio')){
               $response[$key]=$item;
