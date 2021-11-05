@@ -75,6 +75,7 @@ class Farmer extends Model
         'wheat' => "G'alla",
         '' => 'null'
       ];
+
       $crop = $crops[request('crop')];
       $farmer_id = request('farmer');
       $ratio = request('ratio');
@@ -92,7 +93,7 @@ class Farmer extends Model
         left join contour_histories ch on fc.id = ch.farmer_contour_id
         left join area_shapes ash on fc.contour_number = ash.contour_number
         where farmers.id = $farmer_id and ch.year >= $year
-        order by quality_indicator desc"
+        order by quality_indicator desc, ch.year"
       );
 
       $response=[];
@@ -112,7 +113,6 @@ class Farmer extends Model
           'quality_indicator' => $item->quality_indicator,
           'color' => self::setColor($item->quality_indicator),
         ];
-
         $contours[$item->contour_number]['crops'][$item->year] =  $item->crop_name;
         $contours[$item->contour_number]['geometry'] = json_decode($item->geometry);
         $contours[$item->contour_number]['type'] = 'Feature';

@@ -12,13 +12,13 @@ class PortalController extends Controller
 {
     public function index(Request $request)
     {
+      $request->flash();
       $response =[];
       if (\request('farmer'))
       {
         $response = Farmer::getPortalInfo();
       }
       $region = Region::all();
-//      return response()->json($response);
       return view('pages/Portal/index', compact('response', 'region'));
     }
 }

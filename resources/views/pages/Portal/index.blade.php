@@ -80,7 +80,7 @@
                 <select name="region" id="region" class="form-control" required>
                   <option value="">Выбрать</option>
                   @foreach($region as $value)
-                    <option value="{{$value->id}}">{{$value->name}}</option>
+                    <option value="{{$value->id}}" {{ request('region') == $value->id ? "selected" : "" }}>{{$value->name}}</option>
                   @endforeach
                 </select>
               </div>
@@ -227,51 +227,91 @@
   }
 </script>
 <script>
-  $(document).ready(function(){
-    $('select[name="region"]').bind('change',function(){
-      var region_id= $(this).val();
-      if (region_id) {
-        $.ajax({
-          url: "{{ url('admin/basic/districts') }}/"+region_id,
-          type: "GET",
-          dataType: "json",
-          success: function(data){
-            $('select[name="district"]').empty();
+  function getDistricts(check, region_id) {
+    console.log(region_id)
+    if (region_id) {
+      $.ajax({
+        url: "{{ url('admin/basic/districts') }}/"+region_id,
+        type: "GET",
+        dataType: "json",
+        success: function(data){
+          $('select[name="district"]').empty();
+          if (check) {
             $('select[name="district"]').append('<option value="">Выберите район</option>');
             $.each(data,function(key,value){
               $('select[name="district"]').append('<option value="'+value.id+'">'+value.name+'</option>');
             });
           }
-        });
-      }else {
-        $('select[name="district"]').empty();
-      }
-    });
-  });
-</script>
-<script>
-  $(document).ready(function(){
-    $('select[name="district"]').bind('change',function(){
-      var district_id= $(this).val();
-      if (district_id) {
-        $.ajax({
-          url: "{{ url('admin/farmers/list') }}/"+district_id,
-          type: "GET",
-          dataType: "json",
-          success: function(data){
-            $('select[name="farmer"]').empty();
-            // $('select[name="farmer"]').append('<option value="">Выберите фермер</option>');
+          else {
+            let district_id = @json(old('district'), JSON_UNESCAPED_UNICODE);
+            $('select[name="district"]').append('<option value="">Выберите район</option>');
+            $.each(data, function (key, value) {
+              let selected = district_id == value.id ? 'selected': '';
+              $("select[name='district']").append("<option value='" + value.id + "'" +selected+">" + value.name + "</option>");
+            });
+          }
+        }
+      });
+    }else {
+      $('select[name="district"]').empty();
+    }
+  }
+  function getFarmers(check, district_id) {
+    if (district_id) {
+      $.ajax({
+        url: "{{ url('admin/farmers/list') }}/"+district_id,
+        type: "GET",
+        dataType: "json",
+        success: function(data){
+          $('select[name="farmer"]').empty();
+
+          if (check) {
             $.each(data,function(key,value){
               $('select[name="farmer"]').append('<option value="'+value.id+'">'+value.name+' - '+value.crop_area+' (га)</option>');
             });
           }
-        });
-      }else {
-        $('select[name="farmer"]').empty();
-      }
+          else {
+            let farmer_id = @json(old('farmer'), JSON_UNESCAPED_UNICODE);
+            $.each(data, function (key, value) {
+              let selected = farmer_id == value.id ? 'selected': '';
+              $("select[name='farmer']").append("<option value='" + value.id + "'" +selected+">" + value.name + " - " +value.crop_area+ "</option>");
+            });
+          }
+        }
+      });
+    }else {
+      $('select[name="farmer"]').empty();
+    }
+  }
+</script>
+<script>
+  $(document).ready(function(){
+
+    $('select[name="district"]').bind('change',function(){
+      getFarmers(true, $(this).val())
+    });
+
+    $('select[name="region"]').bind('change',function(){
+      getDistricts(true, $(this).val());
     });
   });
 </script>
+@if(old('district'))
+  <script>
+    $(document).ready(function() {
+      getDistricts(false, @json(old('region'), JSON_UNESCAPED_UNICODE))
+    });
+  </script>
+@endif
+
+@if(old('farmer'))
+  <script>
+    $(document).ready(function() {
+      getFarmers(false, @json(old('district'), JSON_UNESCAPED_UNICODE))
+    });
+  </script>
+@endif
+
 <script>
   $(document).ready(function() {
     jQuery('.import-button').click(function() {
