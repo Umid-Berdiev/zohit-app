@@ -5,6 +5,9 @@
     <!-- begin panel-heading -->
     <div class="panel-heading">
       <h4 class="panel-title">Общая посевная площадь: {{$response['total_area']}} га | Площадь после фильтрации: {{$response['required_area']}} га</h4>
+      <button class="btn btn-xs btn-success mr-3" onclick="exportToImage()">
+        Скачать изображение
+      </button>
       <div class="panel-heading-btn">
         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -127,8 +130,13 @@
                     </tr>
                   </table>
                 `
-              })
-              .addTo(this.map);
+              }).bindTooltip(value['properties']['contour_number'].toString(),
+              {
+                permanent: true,
+                direction:"center",
+                className: 'labelstyle'
+              }
+            ).addTo(this.map);
 
             nelat = Math.min(nelat, polygon.getBounds().getNorthEast().lat)
             nelng = Math.max(nelng, polygon.getBounds().getNorthEast().lng)
@@ -181,6 +189,39 @@
         }
       },
     }) ;
+  </script>
+  <script>
+    function exportToImage() {
+      html2canvas(document.querySelector('#mapid'), {
+        useCORS: true,
+        logging: true,
+        allowTaint: true
+      }).then(function (canvas) {
+        saveAs(canvas.toDataURL(), 'gidrogeologiya_map_img.png');
+      });
+
+      function saveAs(uri, filename) {
+        let link = document.createElement('a');
+
+        if (typeof link.download === 'string') {
+
+          link.href = uri;
+          link.download = filename;
+
+          //Firefox requires the link to be in the body
+          document.body.appendChild(link);
+
+          //simulate click
+          link.click();
+
+          //remove the link when done
+          document.body.removeChild(link);
+
+        } else window.open(uri);
+
+      }
+
+    }
   </script>
 
 @endsection
