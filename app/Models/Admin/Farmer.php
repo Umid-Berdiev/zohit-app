@@ -68,7 +68,7 @@ class Farmer extends Model
       $farmer->delete();
     }
 
-    public static function getPortalInfo()
+    public static function getPortalInfo($request)
     {
       $crops = [
         'cotton' => "Paxta",
@@ -76,12 +76,17 @@ class Farmer extends Model
         '' => 'null'
       ];
 
-      $crop = $crops[request('crop')];
-      $farmer_id = request('farmer');
-      $ratio = request('ratio');
+      $crop = $crops[$request['crop']];
+      $farmer_id = $request['farmer'];
+      $ratio = $request['ratio'];
       $year = date("Y",strtotime("-".$ratio." year"));
+      $district_id = $request['district'];
 
       // Barcha kerakli ma'lumotlarni bazadan olish ($ratio ga qarab yillar soni o'zgaradi)
+      $farmer_query = "where ch.year >= $year and d.id = $district_id";
+      if ($request['farmer']){
+        $farmer_query = "where farmers.id = $farmer_id and d.id = $district_id and ch.year >= $year";
+      }
       $farmer =   DB::select(
         "select farmers.id, farmers.crop_area as total_area, r.name as region, d.name as district, farmers.name as farmer, farmers.region_id, farmers.district_id, ch.array_id,
         fc.contour_number, fc.crop_area, ch.year, ch.crop_name, st_asgeojson(ash.geometry) as geometry,
@@ -92,14 +97,14 @@ class Farmer extends Model
         left join farmer_contours fc on farmers.id = fc.farmer_id
         left join contour_histories ch on fc.id = ch.farmer_contour_id
         left join area_shapes ash on fc.contour_number = ash.contour_number
-        where farmers.id = $farmer_id and ch.year >= $year
+        $farmer_query
         order by quality_indicator desc, ch.year"
       );
 
       $response=[];
       $contours=[];
       $total_area=0;
-
+      $total_area_array=[];
       foreach ($farmer as $item)
       {
         $contours[$item->contour_number]['properties'] = [
@@ -111,18 +116,21 @@ class Farmer extends Model
           'crop_area' => $item->crop_area,
           'crop_name' => $item->crop_name,
           'quality_indicator' => $item->quality_indicator,
-          'color' => self::setColor($item->quality_indicator),
         ];
         $contours[$item->contour_number]['crops'][$item->year] =  $item->crop_name;
         $contours[$item->contour_number]['geometry'] = json_decode($item->geometry);
         $contours[$item->contour_number]['type'] = 'Feature';
-        $total_area = $item->total_area;
+        if ($request['farmer']){
+          $total_area_array = array($item->total_area);
+        } else {
+          $total_area_array[$item->contour_number] = $item->crop_area;
+        }
       }
-
+      $total_area = array_sum($total_area_array);
       $area=0;
-      $required_area = request('area');
-      if (request('unit')=='percent' and $required_area!=null){
-        $required_area = ($total_area * request('area'))/100;
+      $required_area = $request['area'];
+      if ($request['unit']=='percent' and $required_area!=null){
+        $required_area = ($total_area * $request['area'])/100;
       }
 
       // Ekin turiga tekshirish
@@ -130,21 +138,26 @@ class Farmer extends Model
       {
         $crop_names = array_count_values($item['crops']);
         if (isset($crop_names[$crop])){
-            if ($crop_names[$crop]<request('ratio')){
+            if ($crop_names[$crop]<$request['ratio']){
               $response[$key]=$item;
               $area += $item['properties']['crop_area'];
+              $response[$key]['properties']['color'] = self::setColor($item['properties']['quality_indicator']);
+            }
+            elseif($request['view_type']=='map'){
+              $response[$key]=$item;
+              $response[$key]['properties']['color'] = 'black';
             }
         }
         else{
           $response[$key]=$item;
           $area += $item['properties']['crop_area'];
+          $response[$key]['properties']['color'] = self::setColor($item['properties']['quality_indicator']);
         }
         if ($area>=$required_area and $required_area!=null){
           break;
         }
       }
-      return ["type" => "FeatureCollection", 'features' => array_values($response), 'required_area' => $area, 'total_area' => $total_area];
-
+      return ["type" => "FeatureCollection", 'features' => array_values($response), 'required_area' => $area, 'total_area' => round($total_area,3)];
     }
 
     public static function setColor($indicator)
@@ -152,8 +165,9 @@ class Farmer extends Model
       switch ($indicator)
       {
         case ($indicator>=80): return 'green'; break;
-        case ($indicator>=60): return 'orange'; break;
+        case ($indicator>=60): return '#85e62c'; break;
         case ($indicator>=40): return 'yellow'; break;
+        case ($indicator>=20): return 'orange'; break;
         default: return 'red';
       }
     }

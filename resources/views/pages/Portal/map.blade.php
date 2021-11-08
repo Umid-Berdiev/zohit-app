@@ -4,7 +4,7 @@
   <div class="panel panel-inverse">
     <!-- begin panel-heading -->
     <div class="panel-heading">
-      <h4 class="panel-title">Общая посевная площадь фермера: {{$response['total_area']}} га | Площадь после фильтрации: {{$response['required_area']}} га</h4>
+      <h4 class="panel-title">Общая посевная площадь: {{$response['total_area']}} га | Площадь после фильтрации: {{$response['required_area']}} га</h4>
       <div class="panel-heading-btn">
         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -17,6 +17,9 @@
       <div id="mapid" ref="map">
 
       </div>
+{{--      <button id="snapshot-button">--}}
+{{--        Snapshot--}}
+{{--      </button>--}}
     </div>
     <!-- end panel-body -->
   </div>
@@ -29,6 +32,7 @@
           integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
           crossorigin=""></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+
   <script>
 
     new Vue({
@@ -87,6 +91,8 @@
             "Google харита (сунъний йўлдош)": layers[2],
           };
 
+          // this.map.addControl(new L.Control.Fullscreen());
+
           this.regionLayers = @json($response, JSON_UNESCAPED_UNICODE);
 
           let nelat = 91
@@ -134,6 +140,41 @@
             [nelat, nelng],
             [swlat, swlng]
           ]));
+
+          function getColor(d) {
+            return d > 80 ? 'green' :
+              d > 60  ? '#85e62c' :
+                d > 40  ? 'yellow' :
+                  d > 20  ? 'orange' :
+                    'red';
+          }
+
+          let legend = L.control({position: 'bottomright'});
+
+          legend.onAdd = function (map) {
+            let div = L.DomUtil.create('div', 'info legend'),
+              grades = [0, 20, 40, 60, 80],
+              labels = [];
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (let i = 0; i < grades.length; i++) {
+              div.innerHTML +=
+                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+            return div;
+          };
+
+          legend.addTo(this.map);
+
+          // Set up snapshotter
+          const snapshotOptions = {
+            hideElementsWithSelectors: [
+              ".leaflet-control-container",
+              ".leaflet-dont-include-pane",
+              "#snapshot-button"
+            ],
+            hidden: true
+          };
 
           L.control.layers(baseMaps).addTo(this.map);
           layers[0].addTo(this.map);

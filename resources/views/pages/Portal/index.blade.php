@@ -23,7 +23,7 @@
 
   <style>
     #mapid {
-      height: 500px;
+      height: 600px;
     }
     .legend {
       line-height: 18px;
@@ -98,7 +98,7 @@
             <div class="col-xl-3 col-md-6">
               <div class="form-group">
                 <label for="farmer">Выбрать фермера</label>
-                <select name="farmer" id="farmer" class="form-control" required>
+                <select name="farmer" id="farmer" class="form-control">
                   <option value="">Выбрать</option>
                 </select>
               </div>
@@ -162,7 +162,7 @@
                 </select>
               </div>
             </div>
-
+            @yield('submit')
             <div class="col-xl-1 col-md-6 p-l-25">
               <button type="submit" class="btn btn-success" style="margin-top: 25px">
                 Фильтр
@@ -237,14 +237,14 @@
         success: function(data){
           $('select[name="district"]').empty();
           if (check) {
-            $('select[name="district"]').append('<option value="">Выберите район</option>');
+            $('select[name="district"]').append('<option value="">Выбрать</option>');
             $.each(data,function(key,value){
               $('select[name="district"]').append('<option value="'+value.id+'">'+value.name+'</option>');
             });
           }
           else {
             let district_id = @json(old('district'), JSON_UNESCAPED_UNICODE);
-            $('select[name="district"]').append('<option value="">Выберите район</option>');
+            $('select[name="district"]').append('<option value="">Выбрать</option>');
             $.each(data, function (key, value) {
               let selected = district_id == value.id ? 'selected': '';
               $("select[name='district']").append("<option value='" + value.id + "'" +selected+">" + value.name + "</option>");
@@ -266,12 +266,14 @@
           $('select[name="farmer"]').empty();
 
           if (check) {
+            $('select[name="farmer"]').append('<option value="">Выбрать</option>');
             $.each(data,function(key,value){
               $('select[name="farmer"]').append('<option value="'+value.id+'">'+value.name+' - '+value.crop_area+' (га)</option>');
             });
           }
           else {
             let farmer_id = @json(old('farmer'), JSON_UNESCAPED_UNICODE);
+            $('select[name="farmer"]').append('<option value="">Выбрать</option>');
             $.each(data, function (key, value) {
               let selected = farmer_id == value.id ? 'selected': '';
               $("select[name='farmer']").append("<option value='" + value.id + "'" +selected+">" + value.name + " - " +value.crop_area+ "</option>");
@@ -304,7 +306,7 @@
   </script>
 @endif
 
-@if(old('farmer'))
+@if(old('farmer') or old('district'))
   <script>
     $(document).ready(function() {
       getFarmers(false, @json(old('district'), JSON_UNESCAPED_UNICODE))

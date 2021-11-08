@@ -30,6 +30,7 @@ Route::get('/', function () {
 
 /**------------------Portal Routes-----------------*/
 Route::get('/portal', [PortalController::class, 'index'])->name('portal.index');
+Route::get('/portal-export/{type}', [PortalController::class, 'exportExcel'])->name('portal.export');
 
 /**-------------------Admin Routes-----------------*/
 Route::prefix('admin')->name('admin.')->group(function() {
