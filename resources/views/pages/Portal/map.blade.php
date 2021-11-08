@@ -35,6 +35,7 @@
           integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
           crossorigin=""></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+  <script src="{{ asset('js/html2canvas.min.js') }}"></script>
 
   <script>
 
@@ -130,13 +131,14 @@
                     </tr>
                   </table>
                 `
-              }).bindTooltip(value['properties']['contour_number'].toString(),
+              }).addTo(this.map);
+            polygon.bindTooltip(value['properties']['contour_number'].toString(),
               {
                 permanent: true,
                 direction:"center",
                 className: 'labelstyle'
               }
-            ).addTo(this.map);
+            ).openTooltip(polygon.getBounds().getCenter())
 
             nelat = Math.min(nelat, polygon.getBounds().getNorthEast().lat)
             nelng = Math.max(nelng, polygon.getBounds().getNorthEast().lng)
@@ -189,15 +191,14 @@
         }
       },
     }) ;
-  </script>
-  <script>
+
     function exportToImage() {
       html2canvas(document.querySelector('#mapid'), {
         useCORS: true,
         logging: true,
         allowTaint: true
       }).then(function (canvas) {
-        saveAs(canvas.toDataURL(), 'gidrogeologiya_map_img.png');
+        saveAs(canvas.toDataURL(), 'map_img.png');
       });
 
       function saveAs(uri, filename) {
