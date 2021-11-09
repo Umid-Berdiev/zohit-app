@@ -132,13 +132,13 @@
                   </table>
                 `
               }).addTo(this.map);
-            polygon.bindTooltip(value['properties']['contour_number'].toString(),
-              {
-                permanent: true,
-                direction:"center",
-                className: 'labelstyle'
-              }
-            ).openTooltip(polygon.getBounds().getCenter())
+            // polygon.bindTooltip(value['properties']['contour_number'].toString(),
+            //   {
+            //     permanent: true,
+            //     direction:"center",
+            //     className: 'labelstyle'
+            //   }
+            // ).openTooltip(polygon.getBounds().getCenter())
 
             nelat = Math.min(nelat, polygon.getBounds().getNorthEast().lat)
             nelng = Math.max(nelng, polygon.getBounds().getNorthEast().lng)

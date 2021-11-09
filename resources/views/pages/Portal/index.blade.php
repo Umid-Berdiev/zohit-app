@@ -37,22 +37,15 @@
       opacity: 0.7;
     }
     .labelstyle {
-      /*all: revert;*/
-      /*color: green;*/
-      /*font-size:14px;*/
-      /*font-weight: 700;*/
-      /*fillColor: none;*/
-      /*fillOpacity: 0;*/
-      /*background-color: none;*/
-      /*border-color: none;*/
-      background: none;
-      border: none;
-      box-shadow: none;
-      margin: 0px;
-      cursor: none;
-      /*direction: 'center';*/
-      interactive: false;
-      fill: false;
+      box-shadow:none;
+      border:none;
+      background-color:transparent;
+    }
+    .leaflet-tooltip-top:before,
+    .leaflet-tooltip-bottom:before,
+    .leaflet-tooltip-left:before,
+    .leaflet-tooltip-right:before {
+      border: none !important;
     }
   </style>
 </head>
