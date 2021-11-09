@@ -48,7 +48,7 @@
           zoom: 6,
           center: [41.95949, 67.335205],
           crs: 'EPSG4326',
-          currentZoom: 6,
+          // currentZoom: 6,
           tileProviders: [
             {
               name: "Openstreet харита",
@@ -73,12 +73,16 @@
           ])
         };
       },
+      computed: {
+        currentZoom() {
+          console.log('this.currentZoom: ', this.map?.getZoom())
+          return this.map?.getZoom() || 6
+        }
+      },
       mounted() {
         this.setupLeafletMap();
         // this.getPoints()
         // this.getRegionLayer()
-
-
       },
       methods: {
         setupLeafletMap() {
@@ -131,14 +135,20 @@
                     </tr>
                   </table>
                 `
-              }).addTo(this.map);
-            // polygon.bindTooltip(value['properties']['contour_number'].toString(),
-            //   {
-            //     permanent: true,
-            //     direction:"center",
-            //     className: 'labelstyle'
-            //   }
-            // ).openTooltip(polygon.getBounds().getCenter())
+              })
+              .bindTooltip(value['properties']['contour_number'].toString(),
+                {
+                  permanent: true,
+                  direction:"center",
+                  className: 'labelstyle'
+                })
+              .addTo(this.map);
+
+            this.map.on('zoomend', function(e) {
+              if (e.target.getZoom() >= 15) {
+                polygon.openTooltip(polygon.getBounds().getCenter())
+              } else polygon.closeTooltip()
+            });
 
             nelat = Math.min(nelat, polygon.getBounds().getNorthEast().lat)
             nelng = Math.max(nelng, polygon.getBounds().getNorthEast().lng)
